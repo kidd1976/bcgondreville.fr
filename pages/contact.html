@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Basket Club de Gondreville</title>
+<meta name="description" content="Contacter le Basket Club de Gondreville : adresse de la salle, e-mail, téléphone et formulaire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="../assets/img/logo-bcg.jpg">
+</head>
+<body>
+<header class="entete">
+  <div class="entete__inner">
+    <a href="../index.html" class="marque">
+      <img src="../assets/img/logo-bcg.jpg" alt="Logo Basket Club de Gondreville">
+      <div><div class="marque__nom">BASKET CLUB</div><div class="marque__sous">GONDREVILLE · 54840</div></div>
+    </a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Accueil</a>
+      <a href="club.html">Le club</a>
+      <a href="equipes.html">Équipes</a>
+      <a href="agenda.html">Agenda</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+      <a href="inscription.html" class="btn-membre">S'inscrire</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding:44px 0 52px">
+  <div class="conteneur">
+    <div class="hero__eyebrow">On vous répond sous 48 heures</div>
+    <h1 style="font-size:clamp(30px,6vw,48px)">Nous écrire,<span>venir nous voir</span></h1>
+    <p>Une question sur les créneaux, une envie d'essayer, une proposition ? Écrivez-nous ou passez à la salle.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur">
+    <div class="grille grille--2">
+      <div>
+        <h2 class="section__titre">Coordonnées</h2>
+        <div class="brique" style="margin-bottom:16px">
+          <h3>La salle</h3>
+          <p>Salle polyvalente<br>29 rue du Gué<br>54840 Gondreville</p>
+        </div>
+        <div class="brique" style="margin-bottom:16px">
+          <h3>Nous joindre</h3>
+          <p>
+            <a href="mailto:contact@bcgondreville.fr" style="color:var(--or)">contact@bcgondreville.fr</a><br>
+            <a href="tel:+33622708913" style="color:var(--or)">06 22 70 89 13</a>
+          </p>
+        </div>
+        <div class="brique">
+          <h3>Sur les réseaux</h3>
+          <p>Photos, résultats et vie du club au quotidien.</p>
+          <div class="social" style="margin-top:14px">
+            <a href="https://www.facebook.com/BasketClubGondreville/" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+            <a href="https://www.instagram.com/basketclubgondreville/" target="_blank" rel="noopener" aria-label="Instagram">◙</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="section__titre">Votre message</h2>
+        <form class="brique" action="https://formsubmit.co/contact@bcgondreville.fr" method="POST">
+          <input type="hidden" name="_subject" value="Message depuis le site BCG">
+          <input type="hidden" name="_captcha" value="false">
+          <div class="champ">
+            <label for="c-nom">Votre nom</label>
+            <input id="c-nom" name="Nom" type="text" required placeholder="Prénom et nom">
+          </div>
+          <div class="champ">
+            <label for="c-email">Adresse e-mail</label>
+            <input id="c-email" name="Email" type="email" required placeholder="vous@exemple.fr">
+          </div>
+          <div class="champ">
+            <label for="c-sujet">Sujet</label>
+            <select id="c-sujet" name="Sujet">
+              <option>Inscription et essai</option>
+              <option>Horaires et créneaux</option>
+              <option>Devenir bénévole ou coach</option>
+              <option>Partenariat</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label for="c-msg">Votre message</label>
+            <textarea id="c-msg" name="Message" required placeholder="Dites-nous tout."></textarea>
+          </div>
+          <button type="submit" class="btn btn--or" style="width:100%">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__bas" style="border:none">
+      Basket Club de Gondreville · SIRET 495 057 259 00014 ·
+      <a href="https://app.bcgondreville.fr">Espace adhérent</a>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

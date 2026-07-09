@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda et résultats — Basket Club de Gondreville</title>
+<meta name="description" content="Calendrier des matchs, résultats et classements des équipes du Basket Club de Gondreville, en temps réel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="../assets/img/logo-bcg.jpg">
+</head>
+<body>
+
+<header class="entete">
+  <div class="entete__inner">
+    <a href="../index.html" class="marque">
+      <img src="../assets/img/logo-bcg.jpg" alt="Logo Basket Club de Gondreville">
+      <div>
+        <div class="marque__nom">BASKET CLUB</div>
+        <div class="marque__sous">GONDREVILLE · 54840</div>
+      </div>
+    </a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Accueil</a>
+      <a href="club.html">Le club</a>
+      <a href="equipes.html">Équipes</a>
+      <a href="agenda.html" aria-current="page">Agenda</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="contact.html">Contact</a>
+      <a href="inscription.html" class="btn-membre">S'inscrire</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding:44px 0 52px">
+  <div class="conteneur">
+    <div class="hero__eyebrow">Championnat départemental 54</div>
+    <h1 style="font-size:clamp(30px,6vw,48px)">Agenda<span>et résultats</span></h1>
+    <p>Calendrier, scores et classements de nos huit équipes, mis à jour en temps réel.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur">
+    <h2 class="section__titre">Prochains matchs</h2>
+    <p class="section__intro">Retrouvez les rencontres à venir, à domicile comme à l'extérieur.</p>
+
+    <div class="encart" style="margin-bottom:28px">
+      <strong>Le rythme d'une saison.</strong> Les équipes jouent quasiment toutes les semaines, d'octobre à avril. En moyenne, un week-end sur deux se déroule à domicile, à la salle polyvalente, et l'autre à l'extérieur, dans un club du département.
+    </div>
+
+    <div id="zone-matchs" class="grille grille--3">
+      <div class="chargement">Chargement du calendrier…</div>
+    </div>
+
+    <!-- ═══ WIDGET SCORENCO — Équipe(s), id 192725 ═══ -->
+    <div style="margin-top:28px;background:#fff;border:1px solid #b9d8c4;border-radius:12px;padding:16px;">
+      <div class="scorenco-widget" data-widget-type="team" data-widget-id="192725" style="background: #F2F5F9; height: 500px; display: flex; align-items: center; justify-content: center; flex-direction: column;text-transform: uppercase; font-family: sans-serif; font-weight: bolder; gap: 9px; color:#1E457B;">
+        <div class="ldsdr"></div>
+        Score'n'co - Basket Club Gondreville
+      </div>
+      <style>.ldsdr{display:inline-block;width:80px;height:80px}.ldsdr:after{content:" ";display:block;width:64px;height:64px;margin:8px;border-radius:50%;border:6px solid #1E457B;border-color:#1E457B transparent;animation:ldsdr 1.2s linear infinite}@keyframes ldsdr{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+      <script async defer src="https://widgets.scorenco.com/host/widgets.js"></script>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur">
+    <h2 class="section__titre">Suivre le club</h2>
+    <div class="grille grille--2">
+      <article class="brique">
+        <h3>Sur Scorenco</h3>
+        <p>Scores en direct, feuilles de match et classements complets de toutes nos équipes engagées en championnat départemental.</p>
+        <p style="margin-top:16px">
+          <a href="https://scorenco.com/basket/clubs/basket-club-gondreville-2wkt" target="_blank" rel="noopener" class="btn btn--or" style="padding:10px 18px;font-size:14px">Ouvrir la page du club sur Scorenco</a>
+        </p>
+      </article>
+      <article class="brique">
+        <h3>Sur le site de la FFBB</h3>
+        <p>La fiche officielle du club, les compositions d'équipes et les résultats validés par le Comité de Meurthe-et-Moselle.</p>
+        <p style="margin-top:16px">
+          <a href="https://competitions.ffbb.com/ligues/ges/comites/0054/clubs/ges0054021" target="_blank" rel="noopener" class="btn btn--ligne" style="padding:10px 18px;font-size:14px">Voir la fiche FFBB</a>
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur">
+    <div class="encart">
+      <strong>Entente Toul / Gondreville.</strong> Certaines catégories évoluent en entente avec le club de Toul, sous le matricule GES0054052. Les résultats de ces équipes apparaissent sous le nom de l'entente.
+    </div>
+  </div>
+</section>
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__bas" style="border:none">
+      Basket Club de Gondreville · Affiliation FFBB GES0054021 ·
+      <a href="https://app.bcgondreville.fr">Espace adhérent</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

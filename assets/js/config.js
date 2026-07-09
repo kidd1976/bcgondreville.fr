@@ -66,7 +66,7 @@ const BCG = {
   },
 };
 
-/* ═══════════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════════
    Données de secours — utilisées tant que MODE = "local".
    Une fois le backend en ligne, ces tableaux ne servent plus
    que de repli si l'API ne répond pas.
@@ -74,12 +74,26 @@ const BCG = {
 
 BCG.FALLBACK = {
 
-  /* Les montants ne sont jamais exposés sur le site public. */
+  /* Aucun montant n'est exposé sur le site public. */
   partenaires: [
-    { nom:"Mairie de Gondreville",   formule:"Premium", type:"Mécénat",    web:"" },
-    { nom:"Vathelot BTP",            formule:"Platine", type:"Sponsoring", web:"" },
-    { nom:"Pièces Auto Gondreville", formule:"Or",      type:"Sponsoring", web:"" },
-    { nom:"Barberi Restauration",    formule:"Argent",  type:"Sponsoring", web:"" },
+    { nom:"Ville de Gondreville",  lieu:"Gondreville",
+      web:"https://www.commune-gondreville.fr/",
+      logo:"https://files.appli-intramuros.com/city_logo/agglo/174/66edb0cec9ed7d8769a0111235f72359_Gondrevill.png" },
+    { nom:"Entreprise Barberi",    lieu:"Bois-de-Haye",
+      web:"https://eurlbarberi.fr/",
+      logo:"https://eurlbarberi.fr/wp-content/uploads/2022/10/Logo-Entreprise-Barberi.png" },
+    { nom:"Carrefour Contact",     lieu:"Gondreville",
+      web:"https://www.carrefour.fr/magasin/contact-gondreville",
+      logo:"/assets/img/partenaire-carrefour-contact.svg" },
+    { nom:"Optical Center",        lieu:"Dommartin-lès-Toul · Laxou",
+      web:"https://opticien.optical-center.fr/234-opticien-dommartin-les-toul-optical-center",
+      logo:"" },
+    { nom:"Vathelot SARL",         lieu:"Villey-Saint-Étienne · Électricité, plâtrerie, isolation",
+      web:"https://annuaire-entreprises.data.gouv.fr/entreprise/vathelot-sarl-522324300",
+      logo:"" },
+    { nom:"Devisu",                lieu:"Gondreville · Impression grand format",
+      web:"https://www.devisu.eu/",
+      logo:"/assets/img/partenaire-devisu.svg" },
   ],
 
   equipes: [

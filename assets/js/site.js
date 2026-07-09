@@ -42,12 +42,15 @@ async function afficherPartenaires() {
   }
 
   zone.innerHTML = liste.map(p => `
-    <article class="brique partenaire">
-      <span class="partenaire__formule">${p.formule}</span>
+    <article class="brique partenaire" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;min-height:150px">
+      ${p.logo ? `<div style="height:64px;display:flex;align-items:center;justify-content:center">
+        <img src="${p.logo}" alt="Logo ${p.nom}" loading="lazy"
+             style="max-height:64px;max-width:150px;object-fit:contain">
+      </div>` : ''}
       <div class="partenaire__nom">${p.web
         ? `<a href="${p.web}" target="_blank" rel="noopener">${p.nom}</a>`
         : p.nom}</div>
-      <div class="partenaire__type">${p.type}</div>
+      ${p.lieu ? `<div class="partenaire__type">${p.lieu}</div>` : ''}
     </article>
   `).join('');
 }

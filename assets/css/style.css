@@ -335,8 +335,9 @@ a   { color: inherit; text-decoration: none; }
   outline-offset: 1px;
 }
 /* Lisibilité des options du menu déroulant (liste ouverte) */
-.champ select option { color: #0c2818; background: #ffffff; }
-.champ select { color: var(--txt); }
+/* Menu déroulant lisible : champ clair, texte foncé (fermé comme ouvert) */
+.champ select { background: #ffffff; color: #0c2818; color-scheme: light; }
+.champ select option { background: #ffffff; color: #0c2818; }
 .champ textarea { min-height: 120px; resize: vertical; }
 
 /* ── Responsive ──────────────────────────── */

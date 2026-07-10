@@ -97,14 +97,14 @@ BCG.FALLBACK = {
   ],
 
   equipes: [
-    { cat:"U7",        libelle:"Baby Basket",       age:"5–6 ans",   jour:"Mercredi 14h00" },
-    { cat:"U9",        libelle:"Mini-poussins",     age:"7–8 ans",   jour:"Mercredi 15h00" },
-    { cat:"U11",       libelle:"Poussins",          age:"9–10 ans",  jour:"Mercredi 16h30" },
-    { cat:"U13",       libelle:"Benjamins",         age:"11–12 ans", jour:"Mardi 18h00" },
+    { cat:"U7",        libelle:"Baby Basket",       age:"5–6 ans",   jour:"Samedi 12h00" },
+    { cat:"U9",        libelle:"Mini-poussins",     age:"7–8 ans",   jour:"Mercredi & Vendredi" },
+    { cat:"U11",       libelle:"Poussins",          age:"9–10 ans",  jour:"Mercredi & Vendredi" },
+    { cat:"U13",       libelle:"Benjamins",         age:"11–12 ans", jour:"Mercredi & Vendredi" },
     { cat:"U15",       libelle:"Minimes",           age:"13–14 ans", jour:"Jeudi 18h30" },
-    { cat:"U18",       libelle:"Cadets",            age:"15–17 ans", jour:"Vendredi 19h00" },
-    { cat:"Seniors M", libelle:"Seniors Masculins", age:"18 ans +",  jour:"Mardi 20h30" },
-    { cat:"Seniors F", libelle:"Seniors Féminines", age:"18 ans +",  jour:"Jeudi 20h30" },
+    { cat:"U18",       libelle:"Cadets",            age:"15–17 ans", jour:"Lundi & Mercredi" },
+    { cat:"Seniors M", libelle:"Seniors Masculins", age:"18 ans +",  jour:"Lundi & Mercredi" },
+    { cat:"Seniors F", libelle:"Seniors Féminines", age:"18 ans +",  jour:"Mardi" },
   ],
 };
 

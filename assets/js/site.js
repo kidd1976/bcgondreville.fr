@@ -64,11 +64,12 @@ async function afficherEquipes() {
   const liste = await BCG.charger('equipes');
 
   zone.innerHTML = liste.map(e => `
-    <article class="brique equipe">
+    <article class="brique equipe" style="align-items:flex-start">
       <div class="equipe__cat">${e.cat}</div>
       <div>
-        <div class="equipe__nom">${e.libelle}</div>
-        <div class="equipe__info">${e.age} · ${e.jour}</div>
+        <div class="equipe__nom">${e.libelle}${(e.type && e.type.length < 12) ? ' · ' + e.type : ''}</div>
+        <div class="equipe__info">Nés en ${e.annees}</div>
+        ${(e.horaires || (e.type && e.type.length >= 12)) ? `<div class="equipe__info" style="margin-top:4px">${e.horaires || e.type}</div>` : ''}
       </div>
     </article>
   `).join('');

@@ -97,14 +97,14 @@ BCG.FALLBACK = {
   ],
 
   equipes: [
-    { cat:"U7",        libelle:"Baby Basket",       age:"5–6 ans",   jour:"Samedi 12h00" },
-    { cat:"U9",        libelle:"Mini-poussins",     age:"7–8 ans",   jour:"Mercredi & Vendredi" },
-    { cat:"U11",       libelle:"Poussins",          age:"9–10 ans",  jour:"Mercredi & Vendredi" },
-    { cat:"U13",       libelle:"Benjamins",         age:"11–12 ans", jour:"Mercredi & Vendredi" },
-    { cat:"U15",       libelle:"Minimes",           age:"13–14 ans", jour:"Jeudi 18h30" },
-    { cat:"U18",       libelle:"Cadets",            age:"15–17 ans", jour:"Lundi & Mercredi" },
-    { cat:"Seniors M", libelle:"Seniors Masculins", age:"18 ans +",  jour:"Lundi & Mercredi" },
-    { cat:"Seniors F", libelle:"Seniors Féminines", age:"18 ans +",  jour:"Mardi" },
+    { cat:"U7",        libelle:"Baby basket",       type:"Mixte",   annees:"2021-2022",      horaires:"Samedi 12h00 – 13h00" },
+    { cat:"Mini",      libelle:"Mini basket (U9 – U11)", type:"Mixte", annees:"2017 à 2020", horaires:"Mercredi & Vendredi · détail dans le tableau ci-dessous" },
+    { cat:"U13",       libelle:"Benjamins",         type:"Mixte",   annees:"2015-2016",      horaires:"Mercredi 17h30–19h00 · Vendredi 19h30–21h00" },
+    { cat:"U15",       libelle:"Minimes garçons",   type:"Équipe en cours de construction", annees:"2013-2014", horaires:"" },
+    { cat:"U15",       libelle:"Minimes filles",    type:"Équipe en cours de construction", annees:"2013-2014", horaires:"" },
+    { cat:"U18",       libelle:"Cadets",            type:"Garçons", annees:"2009-2010-2011", horaires:"Lundi 19h00–20h30 · Mercredi 19h00–20h30" },
+    { cat:"Seniors M", libelle:"Seniors masculins", type:"",        annees:"2008 et avant",  horaires:"Lundi 19h00–20h30 · Mercredi 20h30–22h30" },
+    { cat:"Seniors F", libelle:"Seniors féminines", type:"",        annees:"2008 et avant",  horaires:"Mardi 21h00 – 22h30" },
   ],
 };
 

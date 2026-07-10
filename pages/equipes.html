@@ -16,7 +16,8 @@
   .horaires td:first-child{font-weight:900;color:var(--txt-sombre);white-space:nowrap}
   .horaires .annees{font-weight:600;color:var(--txt-sombre-2);font-size:12px}
   .horaires tbody tr:hover{background:rgba(255,255,255,.5)}
-  .horaires .saison{display:inline-block;font-size:12px;font-weight:700;color:var(--vert-vif)}
+  .horaires .saison{display:inline-block;font-size:11px;font-weight:700;color:var(--vert-vif);text-transform:uppercase}
+  .horaires td.jour{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17px;color:var(--vert);vertical-align:middle;background:rgba(12,82,54,.04)}
   .horaires-wrap{overflow-x:auto;background:#fff;border-radius:14px;padding:6px 10px;box-shadow:0 2px 10px rgba(10,64,40,.08)}
 </style>
 <link rel="icon" href="../assets/img/logo-bcg.jpg">
@@ -57,18 +58,22 @@
 <section class="section">
   <div class="conteneur">
     <h2 class="section__titre">Horaires des entraînements</h2>
-    <p class="section__intro">Tous les entraînements ont lieu à la <strong>salle des sports de Gondreville</strong>. Pour les U9 et U11, les horaires du mercredi varient selon la saison.</p>
     <div class="horaires-wrap">
       <table class="horaires">
-        <thead><tr><th>Catégorie</th><th>Créneaux</th></tr></thead>
+        <thead><tr><th>Jour</th><th>Horaire</th><th>Catégorie</th><th>Lieu</th></tr></thead>
         <tbody>
-        <tr><td>U7 <span class="annees">(2021-2022)</span></td><td>Samedi 12h00 – 13h00</td></tr>
-        <tr><td>U9 <span class="annees">(2019-2020)</span></td><td>Mercredi <span class="saison">hiver</span> 15h30 – 16h30 / <span class="saison">été</span> 14h45 – 16h00<br>Vendredi 17h15 – 18h15</td></tr>
-        <tr><td>U11 <span class="annees">(2017-2018)</span></td><td>Mercredi <span class="saison">hiver</span> 16h30 – 17h30 / <span class="saison">été</span> 16h00 – 17h30<br>Vendredi 18h15 – 19h30</td></tr>
-        <tr><td>U13 <span class="annees">(2015-2016)</span></td><td>Mercredi 17h30 – 19h00<br>Vendredi 19h30 – 21h00</td></tr>
-        <tr><td>U18 <span class="annees">(2009-2010-2011)</span></td><td>Lundi 19h00 – 20h30<br>Mercredi 19h00 – 20h30</td></tr>
-        <tr><td>Seniors M <span class="annees">(2008 et avant)</span></td><td>Lundi 19h00 – 20h30<br>Mercredi 20h30 – 22h30</td></tr>
-        <tr><td>Seniors F <span class="annees">(2008 et avant)</span></td><td>Mardi 21h00 – 22h30</td></tr>
+        <tr><td class="jour" rowspan="2">Lundi</td><td>19h00 – 20h30</td><td>U18</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>19h00 – 20h30</td><td>Seniors M</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td class="jour" rowspan="1">Mardi</td><td>21h00 – 22h30</td><td>Seniors F</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td class="jour" rowspan="5">Mercredi</td><td>15h30 – 16h30 <span class="saison">hiver</span> / 14h45 – 16h00 <span class="saison">été</span></td><td>U9</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>16h30 – 17h30 <span class="saison">hiver</span> / 16h00 – 17h30 <span class="saison">été</span></td><td>U11</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>17h30 – 19h00</td><td>U13</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>19h00 – 20h30</td><td>U18</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>20h30 – 22h30</td><td>Seniors M</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td class="jour" rowspan="3">Vendredi</td><td>17h15 – 18h15</td><td>U9</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>18h15 – 19h30</td><td>U11</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td>19h30 – 21h00</td><td>U13</td><td>Salle des sports de Gondreville</td></tr>
+        <tr><td class="jour" rowspan="1">Samedi</td><td>12h00 – 13h00</td><td>U7</td><td>Salle des sports de Gondreville</td></tr>
         </tbody>
       </table>
     </div>

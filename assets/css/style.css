@@ -334,6 +334,9 @@ a   { color: inherit; text-decoration: none; }
   outline: 2px solid var(--or);
   outline-offset: 1px;
 }
+/* Lisibilité des options du menu déroulant (liste ouverte) */
+.champ select option { color: #0c2818; background: #ffffff; }
+.champ select { color: var(--txt); }
 .champ textarea { min-height: 120px; resize: vertical; }
 
 /* ── Responsive ──────────────────────────── */

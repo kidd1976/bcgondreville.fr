@@ -87,6 +87,7 @@ a   { color: inherit; text-decoration: none; }
   color: var(--txt-2);
   font-size: 14px;
   font-weight: 700;
+  white-space: nowrap;
   transition: background .15s, color .15s;
 }
 .nav a:hover, .nav a[aria-current="page"] {

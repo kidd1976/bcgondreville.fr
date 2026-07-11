@@ -10,6 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
+  .bandeau-info{background:var(--or);color:var(--txt-sombre);overflow:hidden;white-space:nowrap;position:relative}
+  .bandeau-info__piste{display:inline-block;padding:8px 0;animation:defileInfo 26s linear infinite;font-weight:700;font-size:14px}
+  .bandeau-info__piste span{margin:0 40px}
+  .bandeau-info:hover .bandeau-info__piste{animation-play-state:paused}
+  @keyframes defileInfo{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.bandeau-info__piste{animation:none;padding-left:16px}}
+</style>
+<style>
   .carrousel-part{overflow:hidden;position:relative;padding:6px 0;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
     mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
@@ -32,6 +40,10 @@
 </head>
 <body>
 
+<div class="bandeau-info" aria-label="Informations de rentrée">
+  <div class="bandeau-info__piste"><span><strong>Reprise des entraînements :</strong> mercredi 2 septembre 2026 pour toutes les catégories.</span><span><strong>Séances découverte &amp; inscription :</strong> mercredis 9 et 16 septembre pour les U9, U11, U13 et U18.</span><span><strong>Reprise des entraînements :</strong> mercredi 2 septembre 2026 pour toutes les catégories.</span><span><strong>Séances découverte &amp; inscription :</strong> mercredis 9 et 16 septembre pour les U9, U11, U13 et U18.</span></div>
+</div>
+
 <header class="entete">
   <div class="entete__inner">
     <a href="index.html" class="marque">
@@ -46,6 +58,7 @@
       <a href="index.html" aria-current="page">Accueil</a>
       <a href="pages/club.html">Le club</a>
       <a href="pages/equipes.html">Équipes</a>
+      <a href="pages/basket-entreprise.html">Basket entreprise</a>
       <a href="pages/agenda.html">Agenda</a>
       <a href="pages/evenements.html">Événements</a>
       <a href="pages/partenaires.html">Partenaires</a>
@@ -181,10 +194,12 @@
       <div>
         <h4>Nous trouver</h4>
         <ul>
-          <li>Salle polyvalente</li>
-          <li>29 rue du Gué</li>
-          <li>54840 Gondreville</li>
-          <li><a href="mailto:contact@bcgondreville.fr">contact@bcgondreville.fr</a></li>
+          <li><strong>Salle des Sports de Gondreville</strong></li>
+          <li>29 Rue du Gué, 54840 Gondreville</li>
+          <li><a href="https://www.google.com/maps/dir/?api=1&destination=29+Rue+du+Gu%C3%A9%2C+54840+Gondreville" target="_blank" rel="noopener">S'y rendre →</a></li>
+          <li style="margin-top:10px"><strong>Siège</strong> — 56 Rue du Château des Princes, 54840 Gondreville</li>
+          <li><strong>Président / Correspondant</strong> — 37 Rue de la Côte Saint Pierre, 54460 Liverdun</li>
+          <li style="margin-top:10px"><a href="mailto:contact@bcgondreville.fr">contact@bcgondreville.fr</a></li>
           <li><a href="tel:+33622708913">06 22 70 89 13</a></li>
         </ul>
       </div>

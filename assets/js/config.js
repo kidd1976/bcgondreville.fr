@@ -97,14 +97,14 @@ BCG.FALLBACK = {
   ],
 
   equipes: [
-    { cat:"U7",        libelle:"Baby basket",       type:"Mixte",   annees:"2021-2022",      horaires:"Samedi 12h00 – 13h00" },
-    { cat:"Mini",      libelle:"Mini basket (U9 – U11)", type:"Mixte", annees:"2017 à 2020", horaires:"Mercredi & Vendredi · détail dans le tableau ci-dessous" },
-    { cat:"U13",       libelle:"Benjamins",         type:"Mixte",   annees:"2015-2016",      horaires:"Mercredi 17h30–19h00 · Vendredi 19h30–21h00" },
-    { cat:"U15",       libelle:"Minimes garçons",   type:"Équipe en cours de construction", annees:"2013-2014", horaires:"" },
-    { cat:"U15",       libelle:"Minimes filles",    type:"Équipe en cours de construction", annees:"2013-2014", horaires:"" },
-    { cat:"U18",       libelle:"Cadets",            type:"Garçons", annees:"2009-2010-2011", horaires:"Lundi 19h00–20h30 · Mercredi 19h00–20h30" },
-    { cat:"Seniors M", libelle:"Seniors masculins", type:"",        annees:"2008 et avant",  horaires:"Lundi 19h00–20h30 · Mercredi 20h30–22h30" },
-    { cat:"Seniors F", libelle:"Seniors féminines", type:"",        annees:"2008 et avant",  horaires:"Mardi 21h00 – 22h30" },
+    { cat:"U7",        libelle:"Baby basket",       type:"Mixte",   annees:"2021-2022",      horaires:"Samedi 12h00 – 13h00", coachs:"Faustine, Clémence" },
+    { cat:"Mini",      libelle:"Mini basket (U9 – U11)", type:"Mixte", annees:"2017 à 2020", horaires:"Mercredi & Vendredi · détail dans le tableau ci-dessous", coachs:"Nicolas B., Laetitia, Stéphane, Mathis" },
+    { cat:"U13",       libelle:"Benjamins",         type:"Mixte",   annees:"2015-2016",      horaires:"Mercredi 17h30–19h00 · Vendredi 19h30–21h00", coachs:"Sophie, Ophélie, Mathis" },
+    { cat:"U15",       libelle:"Minimes garçons",   type:"Équipe en cours de construction", annees:"2013-2014", horaires:"", coachs:"" },
+    { cat:"U15",       libelle:"Minimes filles",    type:"Équipe en cours de construction", annees:"2013-2014", horaires:"", coachs:"" },
+    { cat:"U18",       libelle:"Cadets",            type:"Garçons", annees:"2009-2010-2011", horaires:"Lundi 19h00–20h30 · Mercredi 19h00–20h30", coachs:"Matthieu, Mathis" },
+    { cat:"Seniors M", libelle:"Seniors masculins", type:"",        annees:"2008 et avant",  horaires:"Lundi 19h00–20h30 · Mercredi 20h30–22h30", coachs:"Tony, Mathis" },
+    { cat:"Seniors F", libelle:"Seniors féminines", type:"",        annees:"2008 et avant",  horaires:"Mardi 21h00 – 22h30", coachs:"Nicolas V." },
   ],
 };
 

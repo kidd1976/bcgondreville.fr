@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Événements — Basket Club de Gondreville</title>
+<meta name="description" content="Les temps forts du Basket Club de Gondreville : week-end du club, basket en famille, stages, tournois inter-clubs et 3×3.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="../assets/img/logo-bcg.jpg">
+<style>
+  .evt{display:flex;flex-direction:column;gap:8px}
+  .evt__badge{align-self:flex-start;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;background:rgba(232,185,35,.18);color:var(--or);padding:4px 12px;border-radius:20px}
+  .evt__titre{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:var(--or);text-transform:uppercase;letter-spacing:.5px;line-height:1}
+  .evt p{margin:0}
+</style>
+</head>
+<body>
+
+<header class="entete">
+  <div class="entete__inner">
+    <a href="../index.html" class="marque">
+      <img src="../assets/img/logo-bcg.jpg" alt="Logo Basket Club de Gondreville">
+      <div>
+        <div class="marque__nom">BASKET CLUB</div>
+        <div class="marque__sous">GONDREVILLE · 54840</div>
+      </div>
+    </a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+    <nav class="nav" id="nav">
+      <a href="../index.html">Accueil</a>
+      <a href="club.html">Le club</a>
+      <a href="equipes.html">Équipes</a>
+      <a href="agenda.html">Agenda</a>
+      <a href="evenements.html" aria-current="page">Événements</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="contact.html">Contact</a>
+      <a href="inscription.html" class="btn-membre">S'inscrire</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding:44px 0 52px">
+  <div class="conteneur">
+    <div class="hero__eyebrow">Un club familial &amp; compétitif</div>
+    <h1 style="font-size:clamp(30px,6vw,48px)">Les temps<span>forts de la saison</span></h1>
+    <p>Tout au long de l'année, le BCG fait vivre sa communauté autour d'événements rassembleurs : c'est ce qui forge son identité et fidélise les familles.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur">
+    <h2 class="section__titre">Nos rendez-vous</h2>
+    <p class="section__intro">Certaines dates restent à définir : elles seront précisées au fil de la saison, ici et sur l'agenda.</p>
+    <div class="grille grille--2">
+      <article class="brique evt">
+        <span class="evt__badge">Mai / Juin 2027 · dates à définir</span>
+        <div class="evt__titre">Week-end du club</div>
+        <p>Deux jours pour réunir tout le club autour de jeux et d'un tournoi. Samedi pour les jeunes (goûter), dimanche pour les Seniors &amp; U17 (barbecue).</p>
+      </article>
+      <article class="brique evt">
+        <span class="evt__badge">Fin de saison · dates à définir</span>
+        <div class="evt__titre">Basket en famille</div>
+        <p>Le dernier entraînement de la saison, ouvert aux parents, aux enfants et aux joueurs.</p>
+      </article>
+      <article class="brique evt">
+        <span class="evt__badge">À chaque vacances scolaires</span>
+        <div class="evt__titre">Stages de perfectionnement</div>
+        <p>Une semaine pendant chaque période de vacances scolaires (hors grandes vacances d'été) pour approfondir la technique avec nos cadres formés.</p>
+      </article>
+      <article class="brique evt">
+        <span class="evt__badge">Mai / Juin 2027 · dates à définir</span>
+        <div class="evt__titre">Tournoi inter-clubs</div>
+        <p>Une journée pour accueillir des clubs voisins et partager le plaisir du jeu, toutes catégories confondues.</p>
+      </article>
+      <article class="brique evt">
+        <span class="evt__badge">Mai / Juin 2027 · dates à définir</span>
+        <div class="evt__titre">Tournoi 3×3</div>
+        <p>Le format 3 contre 3, rapide et convivial, ouvert à tous pour clôturer la saison en beauté.</p>
+      </article>
+    </div>
+    <p style="margin-top:28px"><a href="agenda.html" class="btn btn--vert">Voir l'agenda et les résultats</a></p>
+  </div>
+</section>
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__bas" style="border:none">
+      Basket Club de Gondreville · Affiliation FFBB GES0054021 ·
+      <a href="mentions-legales.html">Mentions légales</a> ·
+      <a href="https://app.bcgondreville.fr">Espace adhérent</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

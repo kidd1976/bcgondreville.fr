@@ -70,7 +70,7 @@ async function afficherEquipes() {
         <div class="equipe__nom">${e.libelle}${(e.type && e.type.length < 12) ? ' · ' + e.type : ''}</div>
         <div class="equipe__info">Nés en ${e.annees}</div>
         ${(e.horaires || (e.type && e.type.length >= 12)) ? `<div class="equipe__info" style="margin-top:4px">${e.horaires || e.type}</div>` : ''}
-        ${e.coachs ? `<div class="equipe__info" style="margin-top:4px;color:var(--or)"><strong>Coachs :</strong> ${e.coachs}</div>` : ''}
+        ${e.coachs ? `<div class="equipe__info" style="margin-top:4px;color:var(--or)"><strong>Entraîneurs/Coachs :</strong> ${e.coachs}</div>` : ''}
       </div>
     </article>
   `).join('');

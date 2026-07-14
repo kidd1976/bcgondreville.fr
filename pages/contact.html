@@ -76,39 +76,39 @@
 
       <div>
         <h2 class="section__titre">Votre message</h2>
-        <form class="brique" action="https://formsubmit.co/contact@bcgondreville.fr" method="POST">
-          <input type="hidden" name="_subject" value="Message depuis le site BCG">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_cc" id="c-cc" value="">
+        <form class="brique" id="c-form">
           <div class="champ">
             <label for="c-nom">Votre nom</label>
-            <input id="c-nom" name="Nom" type="text" required placeholder="Prénom et nom">
+            <input id="c-nom" type="text" required placeholder="Prénom et nom">
           </div>
           <div class="champ">
             <label for="c-email">Adresse e-mail</label>
-            <input id="c-email" name="Email" type="email" required placeholder="vous@exemple.fr">
+            <input id="c-email" type="email" required placeholder="vous@exemple.fr">
           </div>
           <div class="champ">
             <label for="c-tel">Téléphone mobile</label>
-            <input id="c-tel" name="Téléphone" type="tel" placeholder="06 00 00 00 00">
+            <input id="c-tel" type="tel" placeholder="06 00 00 00 00">
           </div>
           <div class="champ">
             <label for="c-sujet">Sujet</label>
-            <select id="c-sujet" name="Sujet">
+            <select id="c-sujet">
               <option>Inscription et essai</option>
               <option>Basket entreprise</option>
               <option>Devenir bénévole</option>
               <option>Devenir coach, arbitre ou OTM</option>
               <option>Partenariat</option>
               <option>Boutique</option>
+              <option>Bug ou amélioration (site internet / application)</option>
               <option>Autre</option>
             </select>
           </div>
           <div class="champ">
             <label for="c-msg">Votre message</label>
-            <textarea id="c-msg" name="Message" required placeholder="Dites-nous tout."></textarea>
+            <textarea id="c-msg" required placeholder="Dites-nous tout."></textarea>
           </div>
-          <button type="submit" class="btn btn--or" style="width:100%">Envoyer</button>
+          <input type="text" id="c-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div id="c-status" style="display:none;margin-bottom:12px;padding:12px 14px;border-radius:8px;font-size:14px"></div>
+          <button type="submit" class="btn btn--or" style="width:100%" id="c-submit">Envoyer</button>
         </form>
       </div>
     </div>
@@ -164,33 +164,56 @@
 <script src="../assets/js/site.js"></script>
 <script>
 (function(){
-  var f=document.querySelector('form[action*="formsubmit"]');
-  if(!f)return;
-  // Pré-sélection du sujet quand on arrive depuis une autre page (ex: contact.html?sujet=basket-entreprise)
+  var f=document.getElementById('c-form'); if(!f) return;
+  var API="https://app.bcgondreville.fr/api/contact.php";
   var suj0=document.getElementById('c-sujet');
   if(suj0){
     var p=new URLSearchParams(location.search).get('sujet');
     if(p){
       var map={
         'basket-entreprise':'Basket entreprise',
-        'benevole':'Devenir bénévole',
-        'benevoles':'Devenir bénévole',
-        'encadrement':'Devenir coach, arbitre ou OTM',
-        'coach':'Devenir coach, arbitre ou OTM',
-        'arbitre':'Devenir coach, arbitre ou OTM',
-        'otm':'Devenir coach, arbitre ou OTM',
-        'partenariat':'Partenariat',
-        'partenaire':'Partenariat',
-        'inscription':'Inscription et essai',
-        'boutique':'Boutique'
+        'benevole':'Devenir bénévole','benevoles':'Devenir bénévole',
+        'encadrement':'Devenir coach, arbitre ou OTM','coach':'Devenir coach, arbitre ou OTM',
+        'arbitre':'Devenir coach, arbitre ou OTM','otm':'Devenir coach, arbitre ou OTM',
+        'partenariat':'Partenariat','partenaire':'Partenariat',
+        'inscription':'Inscription et essai','boutique':'Boutique',
+        'bug':'Bug ou amélioration (site internet / application)',
+        'amelioration':'Bug ou amélioration (site internet / application)'
       };
-      var cible=map[p.toLowerCase()];
-      if(cible){ suj0.value=cible; }
+      var cible=map[p.toLowerCase()]; if(cible){ suj0.value=cible; }
     }
   }
-  f.addEventListener('submit',function(){
-    var suj=document.getElementById('c-sujet'), cc=document.getElementById('c-cc');
-    if(suj&&cc){ cc.value = (suj.value==='Partenariat') ? 'partenaires@bcgondreville.fr' : ''; }
+  var statut=document.getElementById('c-status');
+  function montre(msg, ok){
+    statut.style.display='block';
+    statut.style.background = ok ? 'rgba(46,160,90,.14)' : 'rgba(200,60,60,.14)';
+    statut.style.color = ok ? '#1a7a4a' : '#b00020';
+    statut.textContent = msg;
+  }
+  f.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn=document.getElementById('c-submit');
+    var data={
+      nom:document.getElementById('c-nom').value,
+      email:document.getElementById('c-email').value,
+      tel:document.getElementById('c-tel').value,
+      sujet:document.getElementById('c-sujet').value,
+      message:document.getElementById('c-msg').value,
+      website:document.getElementById('c-website').value
+    };
+    btn.disabled=true; btn.textContent='Envoi…';
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
+      .then(function(res){
+        if(res.ok && res.j && res.j.success){
+          montre('Merci ! Votre message a bien été envoyé, nous vous répondons rapidement.', true);
+          f.reset();
+        } else {
+          montre((res.j && (res.j.erreur||res.j.message)) || "Envoi impossible. Réessayez ou écrivez à contact@bcgondreville.fr.", false);
+        }
+      })
+      .catch(function(){ montre("Envoi impossible. Réessayez ou écrivez à contact@bcgondreville.fr.", false); })
+      .finally(function(){ btn.disabled=false; btn.textContent='Envoyer'; });
   });
 })();
 </script>

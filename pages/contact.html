@@ -79,8 +79,12 @@
         <h2 class="section__titre">Votre message</h2>
         <form class="brique" id="c-form">
           <div class="champ">
-            <label for="c-nom">Votre nom</label>
-            <input id="c-nom" type="text" required placeholder="Prénom et nom">
+            <label for="c-prenom">Prénom</label>
+            <input id="c-prenom" type="text" required placeholder="Prénom">
+          </div>
+          <div class="champ">
+            <label for="c-nom">Nom</label>
+            <input id="c-nom" type="text" required placeholder="Nom">
           </div>
           <div class="champ">
             <label for="c-email">Adresse e-mail</label>
@@ -95,12 +99,11 @@
             <select id="c-sujet">
               <option>Inscription et essai</option>
               <option>Basket entreprise</option>
-              <option>Devenir bénévole</option>
-              <option>Devenir coach, arbitre ou OTM</option>
+              <option>Devenir bénévole – vie du club (administratif, événements, communication)</option>
+              <option>Devenir bénévole – encadrement sportif (coach, arbitre, OTM)</option>
               <option>Partenariat</option>
               <option>Boutique</option>
-              <option>Bug ou amélioration (site internet / application)</option>
-              <option>Autre</option>
+              <option>Autre (bug, suggestion...)</option>
             </select>
           </div>
           <div class="champ">
@@ -108,7 +111,7 @@
             <textarea id="c-msg" required placeholder="Dites-nous tout."></textarea>
           </div>
           <input type="text" id="c-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-          <div class="cf-turnstile" data-sitekey="0x4AAAAAAD10UPItMw5YmXxT" data-theme="light" style="margin-bottom:14px"></div>
+          <div class="cf-turnstile" data-sitekey="VOTRE_CLE_SITE_TURNSTILE" data-theme="light" style="margin-bottom:14px"></div>
           <div id="c-status" style="display:none;margin-bottom:12px;padding:12px 14px;border-radius:8px;font-size:14px"></div>
           <button type="submit" class="btn btn--or" style="width:100%" id="c-submit">Envoyer</button>
         </form>
@@ -175,13 +178,16 @@
     if(p){
       var map={
         'basket-entreprise':'Basket entreprise',
-        'benevole':'Devenir bénévole','benevoles':'Devenir bénévole',
-        'encadrement':'Devenir coach, arbitre ou OTM','coach':'Devenir coach, arbitre ou OTM',
-        'arbitre':'Devenir coach, arbitre ou OTM','otm':'Devenir coach, arbitre ou OTM',
+        'benevole':'Devenir bénévole – vie du club (administratif, événements, communication)',
+        'benevoles':'Devenir bénévole – vie du club (administratif, événements, communication)',
+        'encadrement':'Devenir bénévole – encadrement sportif (coach, arbitre, OTM)',
+        'coach':'Devenir bénévole – encadrement sportif (coach, arbitre, OTM)',
+        'arbitre':'Devenir bénévole – encadrement sportif (coach, arbitre, OTM)',
+        'otm':'Devenir bénévole – encadrement sportif (coach, arbitre, OTM)',
         'partenariat':'Partenariat','partenaire':'Partenariat',
         'inscription':'Inscription et essai','boutique':'Boutique',
-        'bug':'Bug ou amélioration (site internet / application)',
-        'amelioration':'Bug ou amélioration (site internet / application)'
+        'bug':'Autre (bug, suggestion...)',
+        'amelioration':'Autre (bug, suggestion...)'
       };
       var cible=map[p.toLowerCase()]; if(cible){ suj0.value=cible; }
     }
@@ -189,15 +195,17 @@
   var statut=document.getElementById('c-status');
   function montre(msg, ok){
     statut.style.display='block';
-    statut.style.background = ok ? 'rgba(46,160,90,.14)' : 'rgba(200,60,60,.14)';
-    statut.style.color = ok ? '#1a7a4a' : '#b00020';
+    statut.style.background = ok ? 'rgba(76,175,130,.25)' : 'rgba(200,60,60,.25)';
+    statut.style.border = '1px solid ' + (ok ? 'rgba(120,200,150,.6)' : 'rgba(220,120,120,.6)');
+    statut.style.color = '#ffffff';
+    statut.style.fontWeight = '700';
     statut.textContent = msg;
   }
   f.addEventListener('submit', function(e){
     e.preventDefault();
     var btn=document.getElementById('c-submit');
     var data={
-      nom:document.getElementById('c-nom').value,
+      nom:((document.getElementById('c-prenom').value||'').trim()+' '+(document.getElementById('c-nom').value||'').trim()).trim(),
       email:document.getElementById('c-email').value,
       tel:document.getElementById('c-tel').value,
       sujet:document.getElementById('c-sujet').value,

@@ -395,4 +395,5 @@ a   { color: inherit; text-decoration: none; }
 .bandeau-info__piste span{margin:0 40px}
 .bandeau-info:hover .bandeau-info__piste{animation-play-state:paused}
 @keyframes defileInfo{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.bandeau-info__piste{animation:none;padding-left:16px}}
+/* Exception : le bandeau d'info garde son défilement même en mode mouvement réduit */
+@media(prefers-reduced-motion:reduce){.bandeau-info__piste{animation:defileInfo 26s linear infinite !important}.bandeau-info:hover .bandeau-info__piste{animation-play-state:paused !important}}

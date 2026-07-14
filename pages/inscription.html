@@ -11,10 +11,13 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="icon" href="../assets/img/logo-bcg.jpg">
 <style>
-  /* Sécurité mise en page : le contenu s'empile verticalement, quelle que soit la structure. */
-  html, body { overflow-x: hidden; max-width: 100%; }
-  .entete__inner { flex-wrap: wrap; }
-  .hero, .section, .pied { display: block; width: 100%; box-sizing: border-box; clear: both; float: none; }
+  /* Sécurité mise en page : force l'empilement vertical du contenu de CETTE page,
+     quelle que soit la cause (flex, inline-block, float) sur le style global. */
+  html, body { overflow-x: hidden !important; max-width: 100% !important; }
+  body { display: block !important; }
+  .entete { display: block !important; }
+  .entete__inner { display: flex !important; flex-wrap: wrap !important; }
+  .hero, .section, .pied, footer { display: block !important; width: 100% !important; box-sizing: border-box; clear: both !important; float: none !important; }
   #bcg-inscription-root { width: 100%; max-width: 560px; margin: 0 auto; }
 </style>
 </head>
@@ -43,8 +46,11 @@
     <h1 style="font-size:clamp(30px,6vw,48px)">Inscriptions<span>ouvertes</span></h1>
     <p>Tout se fait en ligne, en quelques minutes. Le paiement passe par HelloAsso, sans frais pour le club.</p>
     <div class="hero__actions">
-      <a href="#inscription" class="btn btn--or">Commencer mon inscription</a>
+      <a href="#inscription" class="btn btn--or" onclick="window.dispatchEvent(new Event('bcg-reset-inscription'))">Commencer mon inscription</a>
     </div>
+    <p style="margin-top:18px;padding:12px 16px;background:rgba(232,185,35,.12);border:1px solid rgba(232,185,35,.4);border-radius:10px;font-size:14px;">
+      ⚠️ <strong>Places limitées.</strong> Une priorité est donnée aux anciens licenciés jusqu'au <strong>31 juillet</strong>. Au-delà, les inscriptions sont ouvertes à tous dans la limite des places disponibles.
+    </p>
   </div>
 </section>
 
@@ -66,12 +72,12 @@
       <article class="brique">
         <div style="font-family:var(--titre);font-size:34px;font-weight:900;color:var(--or);line-height:1">3</div>
         <h3 style="font-size:19px;margin-top:6px">Payer</h3>
-        <p>Par carte via HelloAsso. Paiement en plusieurs fois possible. Pass'Sport et aides déduits.</p>
+        <p>Carte bancaire via HelloAsso (en 1 ou 3 fois sans frais), ou sur place : espèces, Pass Jeunes 54, Pass'Sport.</p>
       </article>
       <article class="brique">
         <div style="font-family:var(--titre);font-size:34px;font-weight:900;color:var(--or);line-height:1">4</div>
         <h3 style="font-size:19px;margin-top:6px">Jouer</h3>
-        <p>La licence FFBB arrive sous quelques jours. Vous recevez vos accès à l'espace membre.</p>
+        <p>Après réception du règlement, le club vous transmet le lien FFBB pour finaliser la licence (photo + certificat médical ou questionnaire de santé).</p>
       </article>
     </div>
   </div>
@@ -80,34 +86,35 @@
 <section class="section">
   <div class="conteneur">
     <h2 class="section__titre">Tarifs saison 2026-2027</h2>
-    <p class="section__intro">Le montant dépend de la catégorie (année de naissance) et du type d'inscription.</p>
+    <p class="section__intro">Le montant dépend de la catégorie (année de naissance) et de votre situation.</p>
     <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:520px;">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:420px;">
         <thead>
           <tr style="text-align:left;color:var(--or);border-bottom:2px solid var(--or);">
             <th style="padding:10px 8px;">Catégorie</th>
-            <th style="padding:10px 8px;">Années</th>
-            <th style="padding:10px 8px;">Réinscription</th>
-            <th style="padding:10px 8px;">Nouvelle inscription</th>
-            <th style="padding:10px 8px;">Mutation</th>
+            <th style="padding:10px 8px;">Années de naissance</th>
+            <th style="padding:10px 8px;">Coût licence</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U7</td><td style="padding:9px 8px;">2020-2021</td><td style="padding:9px 8px;">80 €</td><td style="padding:9px 8px;">130 € <span style="color:#0c5236;font-size:12px;">(dont 50 € tenue)</span></td><td style="padding:9px 8px;">—</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U9</td><td style="padding:9px 8px;">2018-2019</td><td style="padding:9px 8px;">130 €</td><td style="padding:9px 8px;">180 € <span style="color:#0c5236;font-size:12px;">(dont 50 € tenue)</span></td><td style="padding:9px 8px;">—</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U11</td><td style="padding:9px 8px;">2016-2017</td><td style="padding:9px 8px;">130 €</td><td style="padding:9px 8px;">180 € <span style="color:#0c5236;font-size:12px;">(dont 50 € tenue)</span></td><td style="padding:9px 8px;">—</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U13</td><td style="padding:9px 8px;">2014-2015</td><td style="padding:9px 8px;">130 €</td><td style="padding:9px 8px;">180 € <span style="color:#0c5236;font-size:12px;">(dont 50 € tenue)</span></td><td style="padding:9px 8px;">—</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U15</td><td style="padding:9px 8px;">2012-2013</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">190 €</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U18</td><td style="padding:9px 8px;">2009-2011</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">190 €</td></tr>
-          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">Sénior</td><td style="padding:9px 8px;">2008 et avant</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">160 €</td><td style="padding:9px 8px;">190 €</td></tr>
-          <tr><td style="padding:9px 8px;font-weight:700;">Bénévoles</td><td style="padding:9px 8px;">Coachs, OTM</td><td style="padding:9px 8px;color:#0c5236;font-weight:700;">Offert</td><td style="padding:9px 8px;color:#0c5236;font-weight:700;">Offert</td><td style="padding:9px 8px;">—</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U7</td><td style="padding:9px 8px;">2020-2021</td><td style="padding:9px 8px;">80 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U9</td><td style="padding:9px 8px;">2018-2019</td><td style="padding:9px 8px;">130 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U11</td><td style="padding:9px 8px;">2016-2017</td><td style="padding:9px 8px;">130 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U13</td><td style="padding:9px 8px;">2014-2015</td><td style="padding:9px 8px;">130 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U15</td><td style="padding:9px 8px;">2012-2013</td><td style="padding:9px 8px;">160 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">U18</td><td style="padding:9px 8px;">2009-2011</td><td style="padding:9px 8px;">160 €</td></tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.08);"><td style="padding:9px 8px;font-weight:700;">Sénior</td><td style="padding:9px 8px;">2008 et avant</td><td style="padding:9px 8px;">160 €</td></tr>
+          <tr><td style="padding:9px 8px;font-weight:700;">Bénévoles (coach, parents OTM)</td><td style="padding:9px 8px;">—</td><td style="padding:9px 8px;color:#0c5236;font-weight:700;">Offert</td></tr>
         </tbody>
       </table>
     </div>
     <div class="encart" style="margin-top:20px;font-size:14px;">
-      <strong>Tenue obligatoire (U7 à U13, nouvelle inscription) :</strong> maillot + short aux couleurs du club, 50 € inclus dans le tarif « nouvelle inscription ».<br>
-      <strong>Mutation (U15/U18/Sénior) :</strong> +30 € — le club prend en charge 50 % du coût.<br>
-      <strong>Bénévoles (coachs, OTM) :</strong> licence prise en charge par le club.
+      <strong>Tenue d'entraînement (maillot + short), +50 € :</strong> obligatoire pour toute nouvelle inscription de U7 à U13 inclus. Elle reste possible en option pour une réinscription de U7 à U13.<br>
+      <strong>Mutation (U15 / U18 / Sénior), +30 € :</strong> transfert depuis un autre club — le club prend en charge 50 % du coût.<br>
+      <strong>Bénévoles (coach, parents OTM) :</strong> licence prise en charge par le club. Un parent OTM s'engage à aider le club comme Officiel de Table de Marque (e-marque, chronomètre, délégué de club) ; le club forme les parents à ce rôle.
+    </div>
+    <div class="encart" style="margin-top:14px;font-size:14px;">
+      <strong>Exemples :</strong> réinscription U11 = 130 € · nouvelle inscription U11 = 130 € + 50 € tenue = 180 € · nouvelle inscription Sénior = 160 € · nouvelle inscription Sénior avec mutation = 190 €.
     </div>
   </div>
 </section>
@@ -115,7 +122,7 @@
 <section class="section">
   <div class="conteneur">
     <div class="encart">
-      <strong>Le prix ne doit jamais être un obstacle.</strong> Pass'Sport, Pass Jeunes 54, aide de la commune, échelonnement du paiement, tarif fratrie : plusieurs dispositifs existent. Parlez-nous-en, on trouve une solution.
+      <strong>Le prix ne doit jamais être un obstacle.</strong> Pass'Sport, Pass Jeunes 54 ou paiement en 3 fois sans frais via HelloAsso pour faciliter le règlement. Parlez-nous-en, on trouve une solution.
     </div>
   </div>
 </section>
@@ -126,7 +133,6 @@
     <p class="section__intro" style="text-align:center">L'inscription en ligne prend moins de dix minutes.</p>
     <!-- Formulaire d'inscription BCG (React) -->
     <div id="bcg-inscription-root" style="margin:24px auto 0;width:100%;"></div>
-    <p style="margin-top:16px;font-size:13px;color:var(--txt-sombre-2);text-align:center">Paiement sécurisé par HelloAsso · Aucune commission prélevée sur le club</p>
   </div>
 </section>
 <footer class="pied">

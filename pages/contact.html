@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link rel="icon" href="../assets/img/logo-bcg.jpg">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="bandeau-info" aria-label="Informations de rentrée">
@@ -107,6 +108,7 @@
             <textarea id="c-msg" required placeholder="Dites-nous tout."></textarea>
           </div>
           <input type="text" id="c-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAD10UP4971F3zTcS_D84S4X5I98" data-theme="light" style="margin-bottom:14px"></div>
           <div id="c-status" style="display:none;margin-bottom:12px;padding:12px 14px;border-radius:8px;font-size:14px"></div>
           <button type="submit" class="btn btn--or" style="width:100%" id="c-submit">Envoyer</button>
         </form>
@@ -166,6 +168,7 @@
 (function(){
   var f=document.getElementById('c-form'); if(!f) return;
   var API="https://app.bcgondreville.fr/api/contact.php";
+  var _t0=Date.now();
   var suj0=document.getElementById('c-sujet');
   if(suj0){
     var p=new URLSearchParams(location.search).get('sujet');
@@ -199,8 +202,11 @@
       tel:document.getElementById('c-tel').value,
       sujet:document.getElementById('c-sujet').value,
       message:document.getElementById('c-msg').value,
-      website:document.getElementById('c-website').value
+      website:document.getElementById('c-website').value,
+      elapsed_ms:Date.now()-_t0,
+      cf_token:(f.querySelector('[name="cf-turnstile-response"]')||{}).value||''
     };
+    if(!data.cf_token){ montre('Merci de valider la case "Je ne suis pas un robot".', false); return; }
     btn.disabled=true; btn.textContent='Envoi…';
     fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
       .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
@@ -213,7 +219,7 @@
         }
       })
       .catch(function(){ montre("Envoi impossible. Réessayez ou écrivez à contact@bcgondreville.fr.", false); })
-      .finally(function(){ btn.disabled=false; btn.textContent='Envoyer'; });
+      .finally(function(){ btn.disabled=false; btn.textContent='Envoyer'; if(window.turnstile){try{turnstile.reset();}catch(e){}} });
   });
 })();
 </script>

@@ -178,6 +178,31 @@
   </div>
 </section>
 
+<!-- ═══ Anniversaires du mois (données via l'API OVH) ═══ -->
+<section class="section" id="bcg-anniv" style="display:none">
+  <div class="conteneur section__centre">
+    <h2 class="section__titre">Les anniversaires du mois 🎂</h2>
+    <p class="section__intro" id="bcg-anniv-texte"></p>
+  </div>
+</section>
+<script>
+(function(){
+  fetch('https://app.bcgondreville.fr/api/anniversaires.php')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d || !d.liste || !d.liste.length) return;
+      var noms = d.liste;
+      var jointe = noms.length > 1
+        ? noms.slice(0,-1).join(', ') + ' et ' + noms[noms.length-1]
+        : noms[0];
+      document.getElementById('bcg-anniv-texte').textContent =
+        'En ' + d.mois + ', le club souhaite un très joyeux anniversaire à ' + jointe + ' !';
+      document.getElementById('bcg-anniv').style.display = '';
+    })
+    .catch(function(){});
+})();
+</script>
+
 <footer class="pied">
   <div class="conteneur">
     <div class="pied__grille">

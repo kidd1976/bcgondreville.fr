@@ -45,6 +45,32 @@
 </head>
 <body>
 
+<!-- ═══ Bandeau anniversaires du mois (accueil uniquement) ═══ -->
+<div id="bcg-anniv" style="display:none;background:#ffffff;overflow:hidden;white-space:nowrap;border-bottom:1px solid #e6efe9">
+  <div id="bcg-anniv-piste" style="display:inline-block;padding:9px 0;color:#0c5236;font-weight:700;font-size:14px;letter-spacing:.2px"></div>
+</div>
+<style>
+  @keyframes bcgAnnivDefile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  #bcg-anniv-piste.anim{animation:bcgAnnivDefile 32s linear infinite !important}
+  #bcg-anniv:hover #bcg-anniv-piste.anim{animation-play-state:paused !important}
+</style>
+<script>
+(function(){
+  fetch('https://app.bcgondreville.fr/api/anniversaires.php')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d || !d.liste || !d.liste.length) return;
+      var sep = '<span style="color:#e8b923;margin:0 22px">•</span>';
+      var un = d.liste.map(function(x){ return '🎂 <strong>' + x.jour + ' ' + d.mois + '</strong> — ' + x.texte; }).join(sep) + sep;
+      var piste = document.getElementById('bcg-anniv-piste');
+      piste.innerHTML = '<span>' + un + '</span><span>' + un + '</span>';
+      piste.classList.add('anim');
+      document.getElementById('bcg-anniv').style.display = '';
+    })
+    .catch(function(){});
+})();
+</script>
+
 <div class="bandeau-info" aria-label="Informations de rentrée">
   <div class="bandeau-info__piste"><span><strong>Reprise des entraînements :</strong> mercredi 2 septembre 2026 pour toutes les catégories.</span><span><strong>Séances découverte &amp; inscription :</strong> mercredis 9 et 16 septembre pour les U9, U11, U13 et U18.</span><span><strong>Reprise des entraînements :</strong> mercredi 2 septembre 2026 pour toutes les catégories.</span><span><strong>Séances découverte &amp; inscription :</strong> mercredis 9 et 16 septembre pour les U9, U11, U13 et U18.</span></div>
 </div>
@@ -177,31 +203,6 @@
     </div>
   </div>
 </section>
-
-<!-- ═══ Anniversaires du mois (données via l'API OVH) ═══ -->
-<section class="section" id="bcg-anniv" style="display:none">
-  <div class="conteneur section__centre">
-    <h2 class="section__titre">Les anniversaires du mois 🎂</h2>
-    <p class="section__intro" id="bcg-anniv-texte"></p>
-  </div>
-</section>
-<script>
-(function(){
-  fetch('https://app.bcgondreville.fr/api/anniversaires.php')
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if(!d || !d.liste || !d.liste.length) return;
-      var noms = d.liste;
-      var jointe = noms.length > 1
-        ? noms.slice(0,-1).join(', ') + ' et ' + noms[noms.length-1]
-        : noms[0];
-      document.getElementById('bcg-anniv-texte').textContent =
-        'En ' + d.mois + ', le club souhaite un très joyeux anniversaire à ' + jointe + ' !';
-      document.getElementById('bcg-anniv').style.display = '';
-    })
-    .catch(function(){});
-})();
-</script>
 
 <footer class="pied">
   <div class="conteneur">

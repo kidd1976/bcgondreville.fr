@@ -1,0 +1,187 @@
+/* ═══════════════════════════════════════════
+   BCG — Poké-Chomp (mini-jeu)
+   ═══════════════════════════════════════════ */
+
+.jeu-zone {
+  background: linear-gradient(160deg, #0a4028 0%, #07130d 100%);
+  padding: 28px 0 44px;
+}
+
+.jeu-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Plateau ─────────────────────────────── */
+.jeu-plateau {
+  background: rgba(4, 14, 9, .72);
+  border: 1px solid rgba(232, 185, 35, .28);
+  border-radius: var(--r, 14px);
+  padding: 14px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .38);
+}
+
+.jeu-barre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.jeu-stat { line-height: 1.1; }
+.jeu-stat__lib {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .58);
+}
+.jeu-stat__val {
+  font-family: var(--titre, 'Barlow Condensed', Impact, sans-serif);
+  font-size: 24px;
+  font-weight: 900;
+  color: #e8b923;
+}
+
+.jeu-vies-boite { display: flex; align-items: center; gap: 6px; min-height: 20px; }
+.jeu-vie {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%, #ffe97a, #f7d117);
+  box-shadow: inset -3px -3px 0 rgba(0, 0, 0, .12);
+  position: relative;
+}
+.jeu-vie::after {
+  content: '';
+  position: absolute; right: -1px; top: 50%;
+  width: 0; height: 0;
+  border: 6px solid transparent;
+  border-right-color: rgba(4, 14, 9, 1);
+  transform: translateY(-50%);
+}
+
+.jeu-boutons { display: flex; gap: 8px; margin-left: auto; }
+.jeu-btn {
+  font-family: var(--corps, sans-serif);
+  font-size: 13px; font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.jeu-btn:hover { background: rgba(232, 185, 35, .24); }
+.jeu-btn:active { transform: translateY(1px); }
+.jeu-btn:focus-visible { outline: 2px solid #e8b923; outline-offset: 2px; }
+
+.jeu-cadre {
+  display: flex;
+  justify-content: center;
+  background: #050f0a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#jeu-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 210px);
+  aspect-ratio: 448 / 496;
+  touch-action: none;
+  image-rendering: auto;
+}
+
+/* ── Manette tactile ─────────────────────── */
+.jeu-manette {
+  display: none;
+  grid-template-columns: repeat(3, 62px);
+  grid-template-rows: repeat(2, 62px);
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.jeu-manette button {
+  font-size: 22px;
+  color: #07130d;
+  background: linear-gradient(180deg, #ffe97a, #e8b923);
+  border: none;
+  border-radius: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.jeu-manette button:active { transform: translateY(2px); filter: brightness(.94); }
+.jeu-manette .jeu-haut  { grid-column: 2; grid-row: 1; }
+.jeu-manette .jeu-gauche{ grid-column: 1; grid-row: 2; }
+.jeu-manette .jeu-bas   { grid-column: 2; grid-row: 2; }
+.jeu-manette .jeu-droite{ grid-column: 3; grid-row: 2; }
+
+/* ── Panneau latéral ─────────────────────── */
+.jeu-panneau {
+  color: #fff;
+  display: grid;
+  gap: 16px;
+}
+.jeu-carte {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: var(--r, 14px);
+  padding: 16px 18px;
+}
+.jeu-carte h3 {
+  font-family: var(--titre, 'Barlow Condensed', Impact, sans-serif);
+  font-size: 20px;
+  color: #e8b923;
+  letter-spacing: .4px;
+  margin-bottom: 8px;
+}
+.jeu-carte p, .jeu-carte li { font-size: 14px; color: rgba(255, 255, 255, .82); }
+.jeu-carte ul { list-style: none; display: grid; gap: 7px; }
+
+.jeu-touche {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 6px;
+  margin-right: 4px;
+  font-size: 12px; font-weight: 700;
+  color: #07130d;
+  background: #e8b923;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.jeu-creature { display: flex; align-items: center; gap: 10px; }
+.jeu-creature + .jeu-creature { margin-top: 10px; }
+.jeu-pastille {
+  width: 30px; height: 30px; flex: 0 0 30px;
+  border-radius: 50% 50% 30% 30%;
+  box-shadow: inset -4px -4px 0 rgba(0, 0, 0, .16);
+}
+.jeu-creature strong { display: block; font-size: 14px; color: #fff; }
+.jeu-creature span   { font-size: 12.5px; color: rgba(255, 255, 255, .68); }
+
+.jeu-note { font-size: 12px; color: rgba(255, 255, 255, .55); line-height: 1.5; }
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 960px) {
+  .jeu-grille { grid-template-columns: minmax(0, 1fr); }
+  .jeu-panneau { order: 2; }
+}
+@media (hover: none) and (pointer: coarse) {
+  .jeu-manette { display: grid; }
+  #jeu-canvas { max-height: calc(100vh - 330px); }
+}
+@media (max-width: 520px) {
+  .jeu-barre { gap: 8px 12px; }
+  .jeu-stat__val { font-size: 20px; }
+  .jeu-boutons { margin-left: 0; width: 100%; }
+  .jeu-btn { flex: 1; }
+}

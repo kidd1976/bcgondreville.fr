@@ -102,9 +102,9 @@ BCG.FALLBACK = {
     { cat:"U13",       libelle:"Benjamins",         type:"Mixte",   annees:"2014-2015",      horaires:"Mercredi 17h30–19h00 · Vendredi 19h30–21h00", coachs:"Ophélie, Sophie, Mathis" },
     { cat:"U15",       libelle:"Minimes garçons",   type:"Équipe en cours de construction", annees:"2012-2013", horaires:"", coachs:"" },
     { cat:"U15",       libelle:"Minimes filles",    type:"Équipe en cours de construction", annees:"2012-2013", horaires:"", coachs:"" },
-    { cat:"U18",       libelle:"Cadets",            type:"Garçons", annees:"2009-2010-2011", horaires:"Lundi 19h00–20h30 · Mercredi 19h00–20h30", coachs:"Mathis, Matthieu" },
+    { cat:"U18",       libelle:"Cadets",            type:"Garçons", annees:"2009-2010-2011", horaires:"Lundi 19h00–20h30 à Toul · Mercredi 19h00–20h30 à Gondreville", coachs:"Mathis, Matthieu" },
     { cat:"U18",       libelle:"Cadettes",          type:"Équipe en cours de construction", annees:"2009-2010-2011", horaires:"", coachs:"" },
-    { cat:"Seniors M", libelle:"Seniors masculins", type:"",        annees:"2008 et avant",  horaires:"Lundi 19h00–20h30 · Mercredi 20h30–22h30", coachs:"Mathis, Tony" },
+    { cat:"Seniors M", libelle:"Seniors masculins", type:"",        annees:"2008 et avant",  horaires:"Lundi 19h00–20h30 à Toul · Mercredi 20h30–22h30 à Gondreville", coachs:"Mathis, Tony" },
     { cat:"Seniors F", libelle:"Seniors féminines", type:"",        annees:"2008 et avant",  horaires:"Mardi 21h00 – 22h30", coachs:"Nicolas V." },
   ],
 };

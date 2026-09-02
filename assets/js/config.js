@@ -97,7 +97,7 @@ BCG.FALLBACK = {
   ],
 
   equipes: [
-    { cat:"U7",        libelle:"Baby basket",       type:"Mixte",   annees:"2021-2022",      horaires:"Samedi 12h00 – 13h00", coachs:"Clémence, Faustine" },
+    { cat:"U7",        libelle:"Baby basket",       type:"Mixte",   annees:"2020-2021",      horaires:"Samedi 12h00 – 13h00", coachs:"Clémence, Faustine" },
     { cat:"Mini",      libelle:"Mini basket (U9 – U11)", type:"Mixte", annees:"U9 : 2018-2019 · U11 : 2016-2017", horaires:"Mercredi & Vendredi · détail dans le tableau ci-dessous", coachs:"Laetitia, Mathis, Nicolas B., Stéphane" },
     { cat:"U13",       libelle:"Benjamins",         type:"Mixte",   annees:"2014-2015",      horaires:"Mercredi 17h30–19h00 · Vendredi 19h30–21h00", coachs:"Ophélie, Sophie, Mathis" },
     { cat:"U15",       libelle:"Minimes garçons",   type:"Équipe en cours de construction", annees:"2012-2013", horaires:"", coachs:"" },

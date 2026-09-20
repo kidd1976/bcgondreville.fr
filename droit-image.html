@@ -67,6 +67,13 @@
   .lien{color:#8aabdf; text-decoration:underline; cursor:pointer; background:none; border:none; font:inherit; padding:0}
   .pied{font-size:11px; color:var(--texte-2); text-align:center; padding:0 20px 20px; line-height:1.6}
   .pied a{color:#8aabdf}
+  .qui-repond{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:14px;margin-bottom:16px}
+  .qui-repond .lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--texte-2);display:block;margin-bottom:5px}
+  .rl-rappel{font-family:"Barlow Condensed",sans-serif;font-size:19px;font-weight:900;color:var(--texte)}
+  .rl-vide{font-family:Lato,sans-serif;font-size:13px;font-weight:400;color:var(--rouge)}
+  .qui-repond input{width:100%;padding:11px 13px;border:1px solid rgba(255,255,255,.14);border-radius:9px;background:rgba(255,255,255,.06);color:var(--texte);font-size:14px;font-family:inherit;outline:none}
+  .qui-repond input:focus{border-color:var(--or)}
+  .rl-aide{font-size:11px;color:#4a6a5a;margin-top:8px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -138,6 +145,20 @@
           (infos.reponse === 1 ? "autorisé" : "refusé") +
           '</strong>. Vous pouvez la modifier ci-dessous, c\'est votre droit.</div>'
         : '') +
+      '<div class="qui-repond">' +
+      '<div class="lbl">' + (infos.majeur ? 'Vous répondez pour vous-même' : 'Responsable légal enregistré') + '</div>' +
+      (infos.majeur
+        ? '<div class="rl-rappel">' + echapper(infos.prenom + ' ' + infos.nom) + '</div>'
+        : (infos.rl1 || infos.rl2
+            ? '<div class="rl-rappel">' + echapper(infos.rl1 || infos.rl2) +
+              (infos.rl1 && infos.rl2 ? ' ou ' + echapper(infos.rl2) : '') + '</div>'
+            : '<div class="rl-rappel rl-vide">Aucun responsable légal enregistré au club.</div>')) +
+      '<label class="lbl" for="di-nom" style="margin-top:12px">Votre nom et prénom</label>' +
+      '<input type="text" id="di-nom" autocomplete="name" maxlength="120" placeholder="Prénom NOM" value="' +
+      echapper(infos.dernier_repondant || (infos.majeur ? (infos.prenom + ' ' + infos.nom) : (infos.rl1 || infos.rl2 || ''))) + '">' +
+      '<div class="rl-aide">Si vous n\'êtes pas la personne indiquée ci-dessus, corrigez simplement votre nom : ' +
+      'nous saurons ainsi qui a répondu, et nous mettrons le dossier à jour.</div>' +
+      '</div>' +
       '<div class="choix">' +
       '<button type="button" data-v="1" aria-pressed="false">' +
       '<div class="t">J\'autorise</div>' +
@@ -154,20 +175,27 @@
 
     var boutons = corps.querySelectorAll(".choix button");
     var valider = document.getElementById("valider");
+    var champNom = document.getElementById("di-nom");
+    /* Le bouton ne s'active que si l'on sait QUI repond : un consentement
+       anonyme ne vaudrait rien le jour ou il faudrait le justifier. */
+    function majBouton() {
+      valider.disabled = (choix === null) || champNom.value.trim().length < 3;
+    }
+    champNom.addEventListener("input", majBouton);
     Array.prototype.forEach.call(boutons, function (b) {
       b.addEventListener("click", function () {
         choix = parseInt(b.getAttribute("data-v"), 10);
         Array.prototype.forEach.call(boutons, function (x) {
           x.setAttribute("aria-pressed", x === b ? "true" : "false");
         });
-        valider.disabled = false;
+        majBouton();
       });
     });
     valider.addEventListener("click", function () {
       if (choix === null) return;
       valider.disabled = true;
       valider.textContent = "Enregistrement…";
-      poster({ action: "repondre", reponse: choix })
+      poster({ action: "repondre", reponse: choix, repondant: champNom.value })
         .then(dessinerFin)
         .catch(function (e) {
           valider.disabled = false;
@@ -189,7 +217,8 @@
       (d.reponse === 1
         ? 'Merci ! Les images où figure ' + echapper(d.prenom) + ' pourront être utilisées par le club.'
         : 'C\'est noté : ' + echapper(d.prenom) + ' n\'apparaîtra pas sur les images diffusées par le club.') +
-      '<br><br>Vous pouvez fermer cette page. Pour modifier votre réponse, il suffit de revenir sur ce même lien.' +
+      '<br><br>Réponse enregistrée au nom de <strong>' + echapper(d.repondant || '') + '</strong>.' +
+      '<br>Vous pouvez fermer cette page. Pour modifier votre réponse, il suffit de revenir sur ce même lien.' +
       '</div>' +
       '<button class="lien" id="retour" style="margin-top:16px">Modifier ma réponse</button></div>';
     document.getElementById("retour").addEventListener("click", function () {

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Droit à l'image — Basket Club de Gondreville</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fond:#0c2818; --carte:#0a2215; --or:#e8b923; --or-sombre:#c9981a;
+    --texte:#e8f2ec; --texte-2:#7a9e8a; --vert:#4caf82; --rouge:#c08080;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:24px 16px; background:#e8f2ec;
+    font-family:Lato,system-ui,sans-serif; color:var(--texte);
+    display:flex; align-items:flex-start; justify-content:center; min-height:100vh;
+  }
+  .carte{
+    width:100%; max-width:560px; background:var(--fond);
+    border-radius:16px; overflow:hidden; box-shadow:0 12px 48px rgba(0,0,0,.35);
+  }
+  .entete{background:var(--carte); border-bottom:1px solid rgba(255,255,255,.08); padding:16px 20px}
+  .entete h1{
+    font-family:"Barlow Condensed",sans-serif; font-size:20px; font-weight:900;
+    letter-spacing:1.5px; text-transform:uppercase; color:var(--or); margin:0 0 2px;
+  }
+  .entete p{margin:0; font-size:11px; color:var(--texte-2)}
+  .corps{padding:22px 20px 26px}
+  .titre{font-family:"Barlow Condensed",sans-serif; font-size:22px; font-weight:900; color:var(--or); margin:0 0 6px}
+  .intro{font-size:13px; color:var(--texte-2); line-height:1.65; margin:0 0 18px}
+  .intro strong{color:var(--texte)}
+  .qui{
+    background:rgba(201,152,26,.08); border:1px solid rgba(201,152,26,.2);
+    border-radius:10px; padding:12px 14px; margin-bottom:18px;
+  }
+  .qui .lbl{font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--texte-2)}
+  .qui .val{font-family:"Barlow Condensed",sans-serif; font-size:24px; font-weight:900; color:var(--or); line-height:1.2}
+  .choix{display:flex; flex-direction:column; gap:10px; margin-bottom:8px}
+  .choix button{
+    width:100%; text-align:left; padding:14px 16px; border-radius:11px; cursor:pointer;
+    border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.03);
+    color:var(--texte); font-family:inherit; transition:border-color .15s, background .15s;
+  }
+  .choix button:hover{border-color:rgba(232,185,35,.5); background:rgba(232,185,35,.07)}
+  .choix button[aria-pressed="true"]{border-color:var(--or); background:rgba(232,185,35,.12)}
+  .choix .t{font-family:"Barlow Condensed",sans-serif; font-size:17px; font-weight:900; letter-spacing:.5px}
+  .choix .d{font-size:11.5px; color:var(--texte-2); margin-top:3px; line-height:1.5}
+  .valider{
+    width:100%; margin-top:16px; padding:13px; border:none; border-radius:9px;
+    background:linear-gradient(135deg,var(--or-sombre),var(--or)); color:#0c2818;
+    font-family:"Barlow Condensed",sans-serif; font-size:16px; font-weight:900;
+    letter-spacing:2px; text-transform:uppercase; cursor:pointer;
+  }
+  .valider[disabled]{background:rgba(255,255,255,.08); color:#4a6a5a; cursor:default}
+  .note{font-size:11px; color:#4a6a5a; line-height:1.6; margin-top:14px}
+  .msg{border-radius:9px; padding:12px 14px; font-size:12.5px; line-height:1.6; margin-bottom:16px}
+  .msg--err{background:rgba(180,80,80,.12); border:1px solid rgba(180,80,80,.3); color:var(--rouge)}
+  .msg--ok{background:rgba(76,175,130,.1); border:1px solid rgba(76,175,130,.35); color:var(--vert)}
+  .fin{text-align:center; padding:8px 0 4px}
+  .fin .ico{font-size:44px; margin-bottom:10px}
+  .fin .t{font-family:"Barlow Condensed",sans-serif; font-size:24px; font-weight:900; color:var(--or); margin-bottom:8px}
+  .fin .d{font-size:13px; color:var(--texte-2); line-height:1.7}
+  .lien{color:#8aabdf; text-decoration:underline; cursor:pointer; background:none; border:none; font:inherit; padding:0}
+  .pied{font-size:11px; color:var(--texte-2); text-align:center; padding:0 20px 20px; line-height:1.6}
+  .pied a{color:#8aabdf}
+</style>
+</head>
+<body>
+<div class="carte">
+  <div class="entete">
+    <h1>Droit à l'image</h1>
+    <p>Basket Club de Gondreville</p>
+  </div>
+  <div class="corps" id="corps">
+    <p class="intro">Chargement…</p>
+  </div>
+  <div class="pied">
+    Une question ? <a href="mailto:contact@bcgondreville.fr">contact@bcgondreville.fr</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var API = "https://app.bcgondreville.fr/api/droit-image.php";
+  var corps = document.getElementById("corps");
+  var jeton = new URLSearchParams(window.location.search).get("j") || "";
+  var choix = null;      // 1 = autorise, 0 = refuse
+  var infos = null;
+
+  function poster(charge) {
+    return fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.assign({ jeton: jeton }, charge))
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok || !d.success) { throw new Error(d.message || d.erreur || "Une erreur est survenue."); }
+        return d;
+      });
+    });
+  }
+
+  function echapper(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function erreur(texte) {
+    corps.innerHTML =
+      '<div class="msg msg--err">' + echapper(texte) + '</div>' +
+      '<p class="intro">Si vous pensez qu\'il s\'agit d\'une erreur, répondez simplement au message ' +
+      'par lequel vous avez reçu ce lien, ou écrivez-nous.</p>';
+  }
+
+  function dessinerQuestion() {
+    var dejaRepondu = infos.reponse !== null && infos.reponse !== undefined;
+    corps.innerHTML =
+      '<h2 class="titre">Votre accord, en un clic</h2>' +
+      '<p class="intro">Le club photographie et filme ses équipes pendant les entraînements, ' +
+      'les matchs et les événements. Ces images servent à faire vivre le club : ' +
+      '<strong>site internet, réseaux sociaux, affiches et presse locale</strong>. ' +
+      'Elles ne sont jamais vendues ni transmises à des tiers à des fins commerciales.</p>' +
+      '<div class="qui"><div class="lbl">Licencié concerné</div>' +
+      '<div class="val">' + echapper(infos.prenom) + ' ' + echapper(infos.nom) + '</div>' +
+      '<div class="lbl" style="margin-top:4px">' + echapper(infos.categorie || "") +
+      ' · saison ' + echapper(infos.saison || "") + '</div></div>' +
+      (dejaRepondu && infos.a_reconfirmer
+        ? '<div class="msg msg--err">Ce texte a été mis à jour depuis votre dernière réponse ' +
+          '(vous aviez répondu <strong>' + (infos.reponse === 1 ? "oui" : "non") + '</strong>). ' +
+          'Merci de nous confirmer votre choix sur cette nouvelle version.</div>'
+        : dejaRepondu
+        ? '<div class="msg msg--ok">Une réponse a déjà été enregistrée : <strong>' +
+          (infos.reponse === 1 ? "autorisé" : "refusé") +
+          '</strong>. Vous pouvez la modifier ci-dessous, c\'est votre droit.</div>'
+        : '') +
+      '<div class="choix">' +
+      '<button type="button" data-v="1" aria-pressed="false">' +
+      '<div class="t">J\'autorise</div>' +
+      '<div class="d">Les images où figure ' + echapper(infos.prenom) +
+      ' peuvent être utilisées par le club dans le cadre décrit ci-dessus.</div></button>' +
+      '<button type="button" data-v="0" aria-pressed="false">' +
+      '<div class="t">Je n\'autorise pas</div>' +
+      '<div class="d">Le club veillera à ce que ' + echapper(infos.prenom) +
+      ' n\'apparaisse pas sur les images diffusées.</div></button>' +
+      '</div>' +
+      '<button class="valider" id="valider" disabled>Enregistrer ma réponse</button>' +
+      '<p class="note">Votre réponse est enregistrée avec sa date. Vous pouvez en changer ' +
+      'à tout moment en revenant sur ce lien, ou en nous écrivant.</p>';
+
+    var boutons = corps.querySelectorAll(".choix button");
+    var valider = document.getElementById("valider");
+    Array.prototype.forEach.call(boutons, function (b) {
+      b.addEventListener("click", function () {
+        choix = parseInt(b.getAttribute("data-v"), 10);
+        Array.prototype.forEach.call(boutons, function (x) {
+          x.setAttribute("aria-pressed", x === b ? "true" : "false");
+        });
+        valider.disabled = false;
+      });
+    });
+    valider.addEventListener("click", function () {
+      if (choix === null) return;
+      valider.disabled = true;
+      valider.textContent = "Enregistrement…";
+      poster({ action: "repondre", reponse: choix })
+        .then(dessinerFin)
+        .catch(function (e) {
+          valider.disabled = false;
+          valider.textContent = "Enregistrer ma réponse";
+          var bloc = document.createElement("div");
+          bloc.className = "msg msg--err";
+          bloc.style.marginTop = "14px";
+          bloc.textContent = e.message;
+          valider.parentNode.insertBefore(bloc, valider.nextSibling);
+        });
+    });
+  }
+
+  function dessinerFin(d) {
+    corps.innerHTML =
+      '<div class="fin"><div class="ico">' + (d.reponse === 1 ? "👍" : "✔️") + '</div>' +
+      '<div class="t">C\'est enregistré</div>' +
+      '<div class="d">' +
+      (d.reponse === 1
+        ? 'Merci ! Les images où figure ' + echapper(d.prenom) + ' pourront être utilisées par le club.'
+        : 'C\'est noté : ' + echapper(d.prenom) + ' n\'apparaîtra pas sur les images diffusées par le club.') +
+      '<br><br>Vous pouvez fermer cette page. Pour modifier votre réponse, il suffit de revenir sur ce même lien.' +
+      '</div>' +
+      '<button class="lien" id="retour" style="margin-top:16px">Modifier ma réponse</button></div>';
+    document.getElementById("retour").addEventListener("click", function () {
+      infos.reponse = d.reponse;
+      choix = null;
+      dessinerQuestion();
+    });
+  }
+
+  if (!/^[0-9a-f]{64}$/.test(jeton)) {
+    erreur("Ce lien est incomplet. Vérifiez que vous l'avez copié en entier.");
+    return;
+  }
+
+  poster({ action: "lire" })
+    .then(function (d) { infos = d; dessinerQuestion(); })
+    .catch(function (e) { erreur(e.message); });
+})();
+</script>
+</body>
+</html>

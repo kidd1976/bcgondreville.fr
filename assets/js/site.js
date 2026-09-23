@@ -12,7 +12,7 @@
   if (!nav || nav.querySelector('[data-espace-club]')) return;
 
   const lien = document.createElement('a');
-  lien.href = 'https://app.bcgondreville.fr/admin/';
+  lien.href = 'https://app.bcgondreville.fr/';
   lien.textContent = 'Se connecter';
   lien.title = 'Espace club — bureau et encadrants';
   lien.rel = 'noopener';
@@ -63,7 +63,7 @@
     'a[href*="app.bcgondreville.fr"]:not([data-espace-club]), a[href*="espace-adherent"]'
   ).forEach(a => {
     a.textContent = 'Se connecter';
-    a.href = 'https://app.bcgondreville.fr/admin/';   /* la racine du sous-domaine ne sert pas l'intranet */
+    a.href = 'https://app.bcgondreville.fr/';   /* la racine sert desormais l'app elle-meme */
   });
 })();
 

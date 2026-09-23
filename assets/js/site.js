@@ -2,6 +2,29 @@
    BCG — Comportements du site
    ═══════════════════════════════════════════ */
 
+/* ── Accès à l'espace club ──────────────────
+   Le bouton est injecté ici plutôt que recopié dans les huit pages
+   du site : une seule ligne à corriger le jour où l'adresse change.
+   Il est placé juste avant « S'inscrire » — s'inscrire et se
+   connecter ne s'adressent pas aux mêmes personnes.              */
+(function () {
+  const nav = document.getElementById('nav');
+  if (!nav || nav.querySelector('[data-espace-club]')) return;
+
+  const lien = document.createElement('a');
+  lien.href = 'https://app.bcgondreville.fr';
+  lien.textContent = 'Se connecter';
+  lien.title = 'Espace club — bureau et encadrants';
+  lien.rel = 'noopener';
+  lien.setAttribute('data-espace-club', '1');
+  lien.style.cssText = 'border:1px solid currentColor;border-radius:8px;padding:6px 12px';
+
+  const inscription = nav.querySelector('.btn-membre');
+  if (inscription) nav.insertBefore(lien, inscription);
+  else nav.appendChild(lien);
+})();
+
+
 /* ── Menu mobile ────────────────────────── */
 (function () {
   const burger = document.querySelector('.burger');

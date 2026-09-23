@@ -22,6 +22,12 @@
   const inscription = nav.querySelector('.btn-membre');
   if (inscription) nav.insertBefore(lien, inscription);
   else nav.appendChild(lien);
+
+  /* Le pied de page parlait d'« Espace adhérent ». Même destination, donc
+     même mot que dans le menu : deux noms pour une seule porte, et on croit
+     qu'il y en a deux. */
+  document.querySelectorAll('a[href*="app.bcgondreville.fr"]:not([data-espace-club])')
+    .forEach(a => { a.textContent = 'Se connecter'; });
 })();
 
 

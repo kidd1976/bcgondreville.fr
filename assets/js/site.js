@@ -55,14 +55,16 @@
     barre.insertBefore(mobile, burger);
   }
 
-  /* Le pied de page parlait d'« Espace adhérent ». Même destination, donc
-     même mot que dans le menu : deux noms pour une seule porte, et on croit
-     qu'il y en a deux. */
-  document.querySelectorAll('a[href*="app.bcgondreville.fr"]:not([data-espace-club])')
-    .forEach(a => {
-      a.textContent = 'Se connecter';
-      a.href = 'https://app.bcgondreville.fr/admin/';   /* la racine du sous-domaine ne sert pas l'intranet */
-    });
+  /* Le pied de page : « Espace adhérent » menait a une page d'attente du
+     site, et non a l'app. Deux noms differents pour une porte qui n'ouvrait
+     nulle part. On le fait pointer sur l'app, avec le meme mot que dans le
+     menu — une seule porte, un seul nom. */
+  document.querySelectorAll(
+    'a[href*="app.bcgondreville.fr"]:not([data-espace-club]), a[href*="espace-adherent"]'
+  ).forEach(a => {
+    a.textContent = 'Se connecter';
+    a.href = 'https://app.bcgondreville.fr/admin/';   /* la racine du sous-domaine ne sert pas l'intranet */
+  });
 })();
 
 

@@ -12,7 +12,7 @@
   if (!nav || nav.querySelector('[data-espace-club]')) return;
 
   const lien = document.createElement('a');
-  lien.href = 'https://app.bcgondreville.fr';
+  lien.href = 'https://app.bcgondreville.fr/admin/';
   lien.textContent = 'Se connecter';
   lien.title = 'Espace club — bureau et encadrants';
   lien.rel = 'noopener';
@@ -23,11 +23,46 @@
   if (inscription) nav.insertBefore(lien, inscription);
   else nav.appendChild(lien);
 
+  /* Sur téléphone, le menu est replié dans le burger : un coach devrait
+     l'ouvrir pour trouver la connexion. On sort donc un second bouton,
+     posé dans le bandeau à côté du burger, visible en permanence.
+     Les deux ne s'affichent jamais ensemble : l'un est masqué par
+     média-requête quand l'autre apparaît. Le seuil suit celui du burger. */
+  const barre = document.querySelector('.entete__inner');
+  const burger = document.querySelector('.burger');
+  if (barre && burger) {
+    const style = document.createElement('style');
+    style.textContent =
+      '.lien-club-mobile{display:none}' +
+      '@media(max-width:1100px){' +
+        '.lien-club-mobile{display:inline-block;margin-left:auto;padding:7px 12px;' +
+          'border:1px solid currentColor;border-radius:8px;font-size:13px;font-weight:700;' +
+          'white-space:nowrap;color:var(--or,#e8b923);text-decoration:none}' +
+        '.nav [data-espace-club]{display:none}' +
+      '}' +
+      /* Sur les petits telephones, le bandeau devient trop serre :
+         le bouton maigrit pour laisser le burger entier a l'ecran. */
+      '@media(max-width:430px){' +
+        '.lien-club-mobile{padding:6px 8px;font-size:12px}' +
+        '.entete__inner{gap:8px}' +
+      '}';
+    document.head.appendChild(style);
+
+    const mobile = lien.cloneNode(true);
+    mobile.className = 'lien-club-mobile';
+    mobile.removeAttribute('style');
+    mobile.setAttribute('data-espace-club', 'mobile');
+    barre.insertBefore(mobile, burger);
+  }
+
   /* Le pied de page parlait d'« Espace adhérent ». Même destination, donc
      même mot que dans le menu : deux noms pour une seule porte, et on croit
      qu'il y en a deux. */
   document.querySelectorAll('a[href*="app.bcgondreville.fr"]:not([data-espace-club])')
-    .forEach(a => { a.textContent = 'Se connecter'; });
+    .forEach(a => {
+      a.textContent = 'Se connecter';
+      a.href = 'https://app.bcgondreville.fr/admin/';   /* la racine du sous-domaine ne sert pas l'intranet */
+    });
 })();
 
 

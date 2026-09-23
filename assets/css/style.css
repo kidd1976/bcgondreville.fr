@@ -354,7 +354,7 @@ a   { color: inherit; text-decoration: none; }
   .section { padding: 72px 0; }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .burger { display: block; }
   .nav {
     position: fixed;
@@ -383,6 +383,16 @@ a   { color: inherit; text-decoration: none; }
 }
 
 /* Accessibilité : mouvement réduit */
+/* Entre 1101 et 1560px, le menu compte onze entrees et sortait de l'ecran :
+   le bouton « S'inscrire » se retrouvait coupe. On resserre les espacements
+   plutot que de masquer des rubriques. */
+@media (min-width: 1101px) and (max-width: 1560px) {
+  .nav { gap: 0; }
+  .nav a { padding: 8px 9px; font-size: 13px; }
+  .nav .nav-new { display: none; }
+  .btn-membre { margin-left: 4px; padding: 8px 13px; font-size: 13px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }

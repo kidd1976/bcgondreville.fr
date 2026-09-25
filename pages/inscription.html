@@ -48,16 +48,16 @@
 <section class="hero" style="padding:44px 0 52px">
   <div class="conteneur">
     <div class="hero__eyebrow">Saison 2026 / 2027</div>
-    <h1 style="font-size:clamp(30px,6vw,48px)">Inscriptions<span>ouvertes</span></h1>
+    <h1 style="font-size:clamp(30px,6vw,48px)">Inscriptions<span>U15, U18 et Seniors</span></h1>
     <p>Tout se fait en ligne, en quelques minutes. Le paiement passe par HelloAsso, sans frais pour le club.</p>
+    <p style="margin-top:20px;padding:14px 16px;background:#fff;border-left:4px solid #c0392b;border-radius:10px;color:var(--txt-sombre);font-size:14.5px;text-align:left;max-width:620px;margin-left:auto;margin-right:auto;">
+      <strong>Effectifs complets en U7, U9, U11 et U13.</strong> Nous ne prenons plus d'inscription dans ces catégories pour la saison 2026-2027. Le formulaire ci-dessous reste ouvert pour les <strong>U15, U18 et Seniors</strong>.
+    </p>
     <div class="hero__actions">
       <a href="#inscription" class="btn btn--or" onclick="window.dispatchEvent(new Event('bcg-reset-inscription'))">Commencer mon inscription</a>
     </div>
     <p style="margin-top:18px;padding:12px 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);border-radius:10px;font-size:14px;">
       <strong>Une inscription à la fois.</strong> L'inscription se fait <strong>un adhérent à la fois</strong> : effectuez toute la démarche jusqu'au paiement pour un adhérent, puis recommencez pour le suivant. Avec la même adresse e-mail, les informations déjà connues sont pré-remplies.
-    </p>
-    <p style="margin-top:14px;padding:12px 16px;background:rgba(232,185,35,.12);border:1px solid rgba(232,185,35,.4);border-radius:10px;font-size:14px;">
-      ⚠️ <strong>Places limitées.</strong> Une priorité est donnée aux anciens licenciés jusqu'au <strong>15 août inclus</strong>. Au-delà, les inscriptions sont ouvertes à tous dans la limite des places disponibles.
     </p>
   </div>
 </section>
@@ -163,6 +163,23 @@
   <div style="max-width:600px;margin:0 auto;width:100%;">
     <h2 class="section__titre" style="text-align:center">Prêt à nous rejoindre ?</h2>
     <p class="section__intro" style="text-align:center">L'inscription en ligne prend moins de dix minutes.</p>
+    <div class="encart" style="border-left-color:#c0392b;margin-bottom:22px">
+      <strong>Avant de commencer.</strong> Les catégories <strong>U7, U9, U11 et U13</strong> sont complètes pour la saison 2026-2027 : une inscription envoyée pour l'une d'elles ne pourra pas être retenue. Les <strong>U15, U18 et Seniors</strong> ont encore des places.
+    </div>
+    <!-- Règlement intérieur — visible uniquement dans le parcours d'inscription.
+         Volontairement absent du menu et de la rubrique « Documents à
+         télécharger » : il se lit au moment de s'engager, pas avant. -->
+    <div class="encart" style="margin-bottom:22px">
+      <strong>Règlement intérieur du club.</strong> Adopté par l'Assemblée Générale du <strong>13 juin 2026</strong>, il s'applique à tout licencié du BCG et précise ce que le club attend de chacun : respect, engagement, esprit de club.
+      <p style="margin:12px 0 0">
+        <a href="../assets/docs/20260613_bcg_reglement-interieur.pdf" target="_blank" rel="noopener"><strong>Lire le règlement intérieur (PDF) ↗</strong></a>
+      </p>
+      <label for="bcg-reglement-lu" style="display:flex;gap:11px;align-items:flex-start;cursor:pointer;margin-top:14px;padding-top:14px;border-top:1px solid rgba(12,82,54,.12)">
+        <input type="checkbox" id="bcg-reglement-lu" style="margin:3px 0 0;width:18px;height:18px;flex:0 0 auto;accent-color:#0c5236">
+        <span>J'ai lu le règlement intérieur et je m'engage à le respecter, pour moi-même comme pour l'adhérent que j'inscris.</span>
+      </label>
+    </div>
+
     <!-- Formulaire d'inscription BCG (React) -->
     <div id="bcg-inscription-root" style="margin:24px auto 0;width:100%;"></div>
   </div>
@@ -176,6 +193,33 @@
     </div>
   </div>
 </footer>
+<script>
+/* Le formulaire ne s'affiche qu'une fois le règlement accepté.
+   Il est masqué ICI, par script, et non dans le HTML : si ce script
+   ne s'exécutait pas, le formulaire resterait visible. Mieux vaut une
+   case non cochée qu'une inscription rendue impossible.
+   La case conditionne l'affichage ; elle n'est pas transmise avec
+   l'inscription — le formulaire est un module compilé à part. */
+(function () {
+  var zone = document.getElementById('bcg-inscription-root');
+  var coche = document.getElementById('bcg-reglement-lu');
+  if (!zone || !coche) return;
+
+  var attente = document.createElement('p');
+  attente.className = 'section__intro';
+  attente.style.cssText = 'text-align:center;font-style:italic;margin-top:18px';
+  attente.textContent = "Cochez la case ci-dessus pour afficher le formulaire d'inscription.";
+  zone.parentNode.insertBefore(attente, zone);
+
+  function majuscule() {
+    zone.style.display    = coche.checked ? '' : 'none';
+    attente.style.display = coche.checked ? 'none' : '';
+  }
+  coche.checked = false;   /* le navigateur peut restaurer l'état au retour arrière */
+  coche.addEventListener('change', majuscule);
+  majuscule();
+})();
+</script>
 <script type="module" src="../assets/js/inscription-form.js"></script>
 <script src="../assets/js/config.js"></script>
 <script src="../assets/js/site.js"></script>

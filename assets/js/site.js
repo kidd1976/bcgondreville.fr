@@ -2,6 +2,77 @@
    BCG — Comportements du site
    ═══════════════════════════════════════════ */
 
+/* ── Bandeaux d'information ─────────────────
+   Les bandeaux etaient recopies page par page. Resultat : celui des
+   anniversaires ne vivait que sur l'accueil, et les onze autres pages
+   affichaient encore les seances decouverte de septembre, des semaines
+   apres qu'elles soient passees. Un texte recopie douze fois n'est
+   jamais corrige douze fois.
+
+   Ils sont desormais poses ici, en haut de chaque page. Pour changer
+   un message, une seule ligne a modifier : MSG_EFFECTIFS ci-dessous.  */
+(function () {
+  if (!document.body || document.querySelector('[data-bandeaux]')) return;
+
+  /* ─────────────────────────────────────────────────────────────
+     LE MESSAGE A METTRE A JOUR EN COURS DE SAISON
+     Le jour ou une place se libere, c'est cette ligne qu'on corrige.
+     Pour retirer completement ce bandeau : mettre une chaine vide.
+     ───────────────────────────────────────────────────────────── */
+  const MSG_EFFECTIFS =
+    '<strong>Effectifs complets pour la saison 2026/27</strong> en U7, U9, U11 et U13' +
+    ' — les inscriptions restent ouvertes en U15, U18 et Seniors';
+
+  /* Les anciens bandeaux ecrits en dur dans les pages disparaissent.
+     Sans cette ligne, les pages non encore mises a jour afficheraient
+     deux bandeaux dores l'un sous l'autre, dont l'ancien, faux.       */
+  document.querySelectorAll('.bandeau-info, #bcg-anniv').forEach(b => b.remove());
+
+  const zone = document.createElement('div');
+  zone.setAttribute('data-bandeaux', '1');
+
+  /* 1. Les anniversaires du mois.
+        Masque tant que l'app n'a pas repondu : un bandeau vide qui
+        apparait puis se remplit fait sauter toute la page.           */
+  const anniv = document.createElement('div');
+  anniv.className = 'bandeau-anniv';
+  anniv.setAttribute('aria-label', 'Anniversaires du mois');
+  anniv.style.display = 'none';
+  anniv.innerHTML = '<div class="bandeau-anniv__piste"></div>';
+  zone.appendChild(anniv);
+
+  /* 2. L'etat des effectifs. */
+  if (MSG_EFFECTIFS) {
+    const info = document.createElement('div');
+    info.className = 'bandeau-info';
+    info.setAttribute('aria-label', 'Inscriptions');
+    /* Le defilement revient au depart a mi-course : la piste contient
+       donc le message en double, deux fois. Sans ce doublon, le texte
+       disparaitrait un instant a chaque tour.                        */
+    info.innerHTML = '<div class="bandeau-info__piste">' +
+      ('<span>' + MSG_EFFECTIFS + '</span>').repeat(4) + '</div>';
+    zone.appendChild(info);
+  }
+
+  document.body.insertBefore(zone, document.body.firstChild);
+
+  fetch('https://app.bcgondreville.fr/api/anniversaires.php')
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d || !d.liste || !d.liste.length) return;
+      const sep = '<span class="bandeau-anniv__sep">•</span>';
+      const un = d.liste.map(function (x) {
+        return '🎂 <strong>' + x.jour + ' ' + d.mois + '</strong> — ' + x.texte;
+      }).join(sep) + sep;
+      const piste = anniv.querySelector('.bandeau-anniv__piste');
+      piste.innerHTML = '<span>' + un + '</span><span>' + un + '</span>';
+      piste.classList.add('anim');
+      anniv.style.display = '';
+    })
+    .catch(function () { /* app injoignable : le bandeau reste masque */ });
+})();
+
+
 /* ── Accès à l'espace club ──────────────────
    Le bouton est injecté ici plutôt que recopié dans les huit pages
    du site : une seule ligne à corriger le jour où l'adresse change.

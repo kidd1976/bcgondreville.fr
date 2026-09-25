@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Basket Club de Gondreville — Un club de basket familial et ambitieux</title>
-<meta name="description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes pour la saison 2026/27.">
+<meta name="description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes en U15, U18 et Seniors pour 2026/27.">
 <link rel="canonical" href="https://bcgondreville.fr/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Basket Club de Gondreville — Un club de basket familial et ambitieux">
-<meta property="og:description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes pour la saison 2026/27.">
+<meta property="og:description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes en U15, U18 et Seniors pour 2026/27.">
 <meta property="og:url" content="https://bcgondreville.fr/">
 <meta property="og:image" content="https://bcgondreville.fr/assets/img/logo-bcg.jpg">
 <meta property="og:locale" content="fr_FR">
@@ -45,32 +45,8 @@
 </head>
 <body>
 
-<!-- ═══ Bandeau anniversaires du mois (accueil uniquement) ═══ -->
-<div id="bcg-anniv" style="display:none;background:#ffffff;overflow:hidden;white-space:nowrap;border-bottom:1px solid #e6efe9">
-  <div id="bcg-anniv-piste" style="display:inline-block;padding:9px 0;color:#0c5236;font-weight:700;font-size:14px;letter-spacing:.2px"></div>
-</div>
-<style>
-  @keyframes bcgAnnivDefile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  #bcg-anniv-piste.anim{animation:bcgAnnivDefile 32s linear infinite !important}
-  #bcg-anniv:hover #bcg-anniv-piste.anim{animation-play-state:paused !important}
-</style>
-<script>
-(function(){
-  fetch('https://app.bcgondreville.fr/api/anniversaires.php')
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      if(!d || !d.liste || !d.liste.length) return;
-      var sep = '<span style="color:#e8b923;margin:0 22px">•</span>';
-      var un = d.liste.map(function(x){ return '🎂 <strong>' + x.jour + ' ' + d.mois + '</strong> — ' + x.texte; }).join(sep) + sep;
-      var piste = document.getElementById('bcg-anniv-piste');
-      piste.innerHTML = '<span>' + un + '</span><span>' + un + '</span>';
-      piste.classList.add('anim');
-      document.getElementById('bcg-anniv').style.display = '';
-    })
-    .catch(function(){});
-})();
-</script>
-
+<!-- Les deux bandeaux défilants (anniversaires du mois, état des
+     effectifs) sont posés par assets/js/site.js sur toutes les pages. -->
 
 <header class="entete">
   <div class="entete__inner">
@@ -103,8 +79,8 @@
     <h1>Le basket pour tous,<span>ambitieux et familial</span></h1>
     <p>120 licenciés dont 80 jeunes, 8 équipes, une salle et une même passion. Un club familial où chacun trouve sa place, et ambitieux dans son projet : que vous veniez pour la compétition ou pour le plaisir de jouer, il y a une place pour vous au BCG.</p>
     <div class="hero__actions">
-      <a href="pages/inscription.html" class="btn btn--or">S'inscrire pour 2026/27</a>
-      <a href="pages/equipes.html" class="btn btn--ligne">Voir les équipes</a>
+      <a href="pages/equipes.html" class="btn btn--or">Voir les équipes et les tarifs</a>
+      <a href="pages/contact.html" class="btn btn--ligne">Nous contacter</a>
     </div>
   </div>
 </section>
@@ -129,8 +105,8 @@
     <div class="grille grille--3">
       <div class="brique">
         <h3>Jouer</h3>
-        <p>Du Baby Basket aux Seniors, en compétition départementale ou en loisir. Un essai gratuit est possible avant de s'engager.</p>
-        <p style="margin-top:14px"><a href="pages/inscription.html" class="btn btn--or" style="padding:10px 18px;font-size:14px">S'inscrire</a></p>
+        <p>Du Baby Basket aux Seniors, en compétition départementale ou en loisir. Les U7, U9, U11 et U13 sont complets pour cette saison ; il reste de la place en U15, U18 et Seniors.</p>
+        <p style="margin-top:14px"><a href="pages/equipes.html" class="btn btn--or" style="padding:10px 18px;font-size:14px">Voir les équipes</a></p>
       </div>
       <div class="brique">
         <h3>Encadrer</h3>

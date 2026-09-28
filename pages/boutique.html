@@ -298,6 +298,20 @@
         <label class="bq-champ"><span>Date de naissance <b class="bq-oblig">*</b></span>
           <input name="naissance" type="date">
           <span class="bq-aide" id="bq-f-cat"></span></label>
+        <label class="bq-champ"><span>Taille du t-shirt <b class="bq-oblig">*</b></span>
+          <select name="taille">
+            <option value="">— choisir —</option>
+            <option value="5XS">5XS — 104 cm</option>
+            <option value="4XS">4XS — 116 cm</option>
+            <option value="3XS">3XS — 128 cm</option>
+            <option value="2XS">2XS — 140 cm</option>
+            <option value="XS">XS — 152 cm</option>
+            <option value="S">S — 164 cm</option>
+            <option value="M">M — 176 cm</option>
+          </select>
+          <span class="bq-aide">Le t-shirt du stage est offert. Les centimètres sont la
+            taille de l'enfant, pas celle du vêtement — mesurez-le contre un mur plutôt
+            que de deviner. La commande part avant le stage, d'où la question maintenant.</span></label>
         <label class="bq-champ l2"><span>Club actuel
             <em style="font-weight:400;text-transform:none">— facultatif</em></span>
           <input name="club" placeholder="BCG, autre club, ou rien si non licencié"></label>
@@ -846,7 +860,8 @@ $('#bq-f-valider').addEventListener('click', () => {
   const radio = n => { const e = f.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : ''; };
 
   const fiche = {
-    prenom: v('prenom'), nom: v('nom'), naissance: v('naissance'), club: v('club'),
+    prenom: v('prenom'), nom: v('nom'), naissance: v('naissance'),
+    taille: v('taille'), club: v('club'),
     resp_prenom: v('resp_prenom'), resp_nom: v('resp_nom'),
     resp_tel: v('resp_tel'), resp_email: v('resp_email'),
     adresse: v('adresse'), complement: v('complement'),
@@ -873,6 +888,7 @@ $('#bq-f-valider').addEventListener('click', () => {
   const manque =
       !fiche.prenom || !fiche.nom ? "Le prénom et le nom du participant sont nécessaires."
     : !fiche.naissance            ? "La date de naissance est nécessaire."
+    : !fiche.taille               ? "Choisissez la taille du t-shirt offert."
     : !fiche.resp_prenom || !fiche.resp_nom ? "Le prénom et le nom du représentant légal sont nécessaires."
     : chiffres(fiche.resp_tel).length < 10 ? "Le téléphone portable du représentant légal n'est pas complet."
     : !emailOk(fiche.resp_email)  ? "L'email du représentant légal n'est pas valide."
@@ -904,7 +920,8 @@ $('#bq-f-valider').addEventListener('click', () => {
   const cat = categorie(fiche.naissance, s.date_debut);
   ajouter({
     type: 'stage', stage_id: s.id, quantite: 1, libelle: s.nom, prix: s.prix,
-    resume: fiche.prenom + ' ' + fiche.nom + (cat ? ' · ' + cat : ''),
+    resume: fiche.prenom + ' ' + fiche.nom + (cat ? ' · ' + cat : '') +
+            ' · t-shirt ' + fiche.taille,
     participant: fiche.prenom + ' ' + fiche.nom,
     fiche: fiche, choix: []
   });

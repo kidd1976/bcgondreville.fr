@@ -196,8 +196,8 @@
     <h2 class="section__titre">Les stages de vacances</h2>
     <p class="section__intro">Ouverts aux licenciés du club comme à ceux qui n'en sont pas encore.
       <strong>Le nombre de places est limité</strong> — il dépend du nombre d'encadrants, pas de la
-      salle. Une place réservée n'est plus disponible pour quelqu'un d'autre, même avant le
-      règlement.</p>
+      salle. Une place est retenue une fois le paiement en ligne confirmé, ou dès l'inscription
+      terminée si vous réglez au gymnase.</p>
     <div class="bq-grille" id="bq-stages"></div>
   </div>
 </section>
@@ -227,15 +227,34 @@
         <label class="bq-champ l2"><span>Un mot pour nous <em style="font-weight:400;text-transform:none">— facultatif</em></span>
           <input name="note" placeholder="Pour l'anniversaire de Louise, à récupérer avant le 12…"></label>
       </div>
+
+      <!-- ---------- Le règlement ----------
+           Les mêmes moyens qu'à l'inscription. Le choix est fait ICI,
+           avant d'enregistrer, parce qu'il décide de ce qui se passe
+           ensuite : une redirection vers HelloAsso, ou une place
+           réservée à régler au gymnase. -->
+      <h3 style="font-family:var(--titre);font-size:22px;margin:26px 0 4px">Comment réglez-vous ?</h3>
+      <p style="font-size:13.5px;color:var(--txt-sombre-2);margin:0 0 12px">
+        Pour un stage, <strong>la place n'est retenue qu'une fois ce choix fait</strong> :
+        soit le paiement en ligne est confirmé, soit vous réglez au gymnase.</p>
+      <div id="bq-paiement">
+        <label class="bq-choix"><input type="radio" name="paiement" value="enligne" checked>
+          <span><b>En ligne, par carte bancaire</b><span class="p">Paiement sécurisé par
+            HelloAsso. Vous êtes redirigé après validation, et la place est retenue dès la
+            confirmation.</span></span></label>
+        <label class="bq-choix"><input type="radio" name="paiement" value="especes">
+          <span><b>Espèces, au gymnase</b><span class="p">La place est réservée tout de
+            suite. Vous réglez auprès d'un coach ou du bureau.</span></span></label>
+      </div>
+
       <div style="margin-top:22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
         <button class="btn btn--or" type="submit" id="bq-valider" style="font-size:16px;padding:14px 30px">
-          Commander et payer</button>
-        <span style="font-size:13px;color:var(--txt-sombre-2)">
-          Paiement sécurisé par HelloAsso · vous pouvez aussi régler au gymnase</span>
+          Valider et payer</button>
+        <span style="font-size:13px;color:var(--txt-sombre-2)" id="bq-mention-paiement">
+          Paiement sécurisé par HelloAsso</span>
       </div>
     </form>
 
-    <div id="bq-remise" class="encart" style="margin-top:24px"></div>
   </div>
 </section>
 
@@ -279,38 +298,60 @@
         <label class="bq-champ"><span>Date de naissance <b class="bq-oblig">*</b></span>
           <input name="naissance" type="date">
           <span class="bq-aide" id="bq-f-cat"></span></label>
-        <label class="bq-champ"><span>Taille du t-shirt <b class="bq-oblig">*</b></span>
-          <select name="taille">
-            <option value="">— choisir —</option>
-            <option>6 ans</option><option>8 ans</option><option>10 ans</option>
-            <option>12 ans</option><option>14 ans</option>
-            <option>XS adulte</option><option>S adulte</option>
-            <option>M adulte</option><option>L adulte</option>
-          </select>
-          <span class="bq-aide">Le t-shirt du stage est offert.</span></label>
         <label class="bq-champ l2"><span>Club actuel
             <em style="font-weight:400;text-transform:none">— facultatif</em></span>
           <input name="club" placeholder="BCG, autre club, ou rien si non licencié"></label>
       </div>
     </div>
 
-    <!-- ---------- Qui joindre ---------- -->
+    <!-- ---------- Représentant légal 1 ----------
+         Tout est obligatoire ici. C'est la personne que le club
+         appelle, a qui il ecrit, et a qui il envoie l'attestation
+         de stage : une case vide, et c'est une famille qu'on ne
+         sait plus joindre un mercredi a 16h30. -->
     <div class="bq-bloc">
-      <h3>Qui joindre pendant le stage</h3>
-      <p class="sous">Deux numéros différents : si le premier ne répond pas un mercredi
-        après-midi, il faut pouvoir appeler quelqu'un d'autre.</p>
+      <h3>Représentant légal</h3>
+      <p class="sous">La personne que le club contacte pendant le stage. Tous les champs
+        sont nécessaires.</p>
       <div class="bq-duo">
-        <label class="bq-champ"><span>Responsable légal <b class="bq-oblig">*</b></span>
-          <input name="resp_nom" placeholder="Prénom et nom"></label>
-        <label class="bq-champ"><span>Son téléphone <b class="bq-oblig">*</b></span>
-          <input name="resp_tel" type="tel" inputmode="tel"></label>
-        <label class="bq-champ l2"><span>Son email
+        <label class="bq-champ"><span>Prénom <b class="bq-oblig">*</b></span>
+          <input name="resp_prenom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Nom <b class="bq-oblig">*</b></span>
+          <input name="resp_nom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Téléphone portable <b class="bq-oblig">*</b></span>
+          <input name="resp_tel" type="tel" inputmode="tel" placeholder="06 12 34 56 78"></label>
+        <label class="bq-champ"><span>Email <b class="bq-oblig">*</b></span>
+          <input name="resp_email" type="email" placeholder="pour l'attestation et les informations"></label>
+        <label class="bq-champ l2"><span>Adresse <b class="bq-oblig">*</b></span>
+          <input name="adresse" placeholder="Numéro et rue"></label>
+        <label class="bq-champ l2"><span>Complément
             <em style="font-weight:400;text-transform:none">— facultatif</em></span>
-          <input name="resp_email" type="email"></label>
-        <label class="bq-champ"><span>Autre personne à prévenir <b class="bq-oblig">*</b></span>
-          <input name="urgence_nom" placeholder="Prénom et nom"></label>
-        <label class="bq-champ"><span>Son téléphone <b class="bq-oblig">*</b></span>
+          <input name="complement" placeholder="Bâtiment, appartement, lieu-dit"></label>
+        <label class="bq-champ"><span>Code postal <b class="bq-oblig">*</b></span>
+          <input name="code_postal" inputmode="numeric" maxlength="5" placeholder="54840"></label>
+        <label class="bq-champ"><span>Ville <b class="bq-oblig">*</b></span>
+          <input name="ville" placeholder="Gondreville"></label>
+      </div>
+    </div>
+
+    <!-- ---------- Représentant légal 2 ----------
+         Facultatif en bloc, complet des qu'il est commence : un
+         deuxieme parent dont on n'aurait que le prenom ne sert a
+         rien le jour ou le premier ne repond pas. -->
+    <div class="bq-bloc">
+      <h3>Deuxième représentant légal</h3>
+      <p class="sous">Facultatif, mais fortement conseillé : c'est la personne appelée si
+        la première ne répond pas. Si vous la renseignez, les quatre champs sont
+        nécessaires.</p>
+      <div class="bq-duo">
+        <label class="bq-champ"><span>Prénom</span>
+          <input name="urgence_prenom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Nom</span>
+          <input name="urgence_nom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Téléphone portable</span>
           <input name="urgence_tel" type="tel" inputmode="tel"></label>
+        <label class="bq-champ"><span>Email</span>
+          <input name="urgence_email" type="email"></label>
       </div>
     </div>
 
@@ -431,13 +472,19 @@
           N'écrivez que ce qui est utile sur le terrain.</span></label>
     </div>
 
-    <!-- ---------- Signature ---------- -->
+    <!-- ---------- Signature ----------
+         Plus de champ « retapez votre nom » : le representant legal
+         est deja identifie plus haut, et le redemander n'ajoute
+         aucune garantie. On coche, et la fiche enregistre le nom
+         saisi plus haut avec la date et l'heure. -->
     <div class="bq-bloc">
       <h3>Signature</h3>
-      <p class="sous">Votre nom vaut signature. La date et l'heure sont enregistrées
-        avec la fiche.</p>
-      <label class="bq-champ"><span>Nom du représentant légal <b class="bq-oblig">*</b></span>
-        <input name="signataire" placeholder="Prénom et nom"></label>
+      <label class="bq-choix"><input type="checkbox" name="certifie">
+        <span><b>Je certifie <span class="bq-oblig">*</span></b><span class="p">
+          être le représentant légal de cet enfant, être habilité à signer les
+          autorisations ci-dessus en son nom, et déclarer des informations exactes.
+          Cette case vaut signature : <em id="bq-f-signataire">elle enregistre votre nom</em>,
+          la date et l'heure.</span></span></label>
     </div>
   </form>
 
@@ -740,6 +787,7 @@ function ouvrirFiche(s, nomSaisi) {
   stageEnCours = s;
   const f = $('#bq-fiche');
   f.reset();
+  $('#bq-f-signataire').textContent = 'elle enregistre votre nom';
   $('#bq-f-erreur').hidden = true;
   $('#bq-f-cat').textContent = '';
   $('#bq-f-titre').textContent = s.nom;
@@ -779,6 +827,16 @@ $('#bq-fiche').naissance.addEventListener('change', function () {
   $('#bq-f-cat').textContent = c ? 'Catégorie ' + c + ' cette saison.' : '';
 });
 
+/* La case de signature nomme la personne qui signe, au lieu de lui
+   faire retaper son nom. Elle suit ce qui est saisi plus haut. */
+['resp_prenom', 'resp_nom'].forEach(n => {
+  $('#bq-fiche')[n].addEventListener('input', () => {
+    const f = $('#bq-fiche');
+    const qui = (f.resp_prenom.value.trim() + ' ' + f.resp_nom.value.trim()).trim();
+    $('#bq-f-signataire').textContent = qui ? 'elle enregistre votre nom, ' + qui : 'elle enregistre votre nom';
+  });
+});
+
 $('#bq-f-valider').addEventListener('click', () => {
   const s = stageEnCours;
   if (!s) return;
@@ -788,33 +846,53 @@ $('#bq-f-valider').addEventListener('click', () => {
   const radio = n => { const e = f.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : ''; };
 
   const fiche = {
-    prenom: v('prenom'), nom: v('nom'), naissance: v('naissance'),
-    taille: v('taille'), club: v('club'),
-    resp_nom: v('resp_nom'), resp_tel: v('resp_tel'), resp_email: v('resp_email'),
-    urgence_nom: v('urgence_nom'), urgence_tel: v('urgence_tel'),
+    prenom: v('prenom'), nom: v('nom'), naissance: v('naissance'), club: v('club'),
+    resp_prenom: v('resp_prenom'), resp_nom: v('resp_nom'),
+    resp_tel: v('resp_tel'), resp_email: v('resp_email'),
+    adresse: v('adresse'), complement: v('complement'),
+    code_postal: v('code_postal'), ville: v('ville'),
+    urgence_prenom: v('urgence_prenom'), urgence_nom: v('urgence_nom'),
+    urgence_tel: v('urgence_tel'), urgence_email: v('urgence_email'),
     droit_image: radio('droit_image'), sante: radio('sante'),
-    soins: coche('soins'), vaccins: coche('vaccins'),
-    a_signaler: v('a_signaler'), signataire: v('signataire')
+    soins: coche('soins'), vaccins: coche('vaccins'), certifie: coche('certifie'),
+    a_signaler: v('a_signaler')
   };
+
+  const chiffres = t => t.replace(/\D+/g, '');
+  const emailOk  = t => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(t);
+  /* Le second representant legal est facultatif EN BLOC. Des qu'une
+     seule de ses cases est remplie, les quatre le deviennent : un
+     deuxieme parent dont on n'a que le prenom ne sert a rien le
+     jour ou le premier ne repond pas. */
+  const rl2 = [fiche.urgence_prenom, fiche.urgence_nom, fiche.urgence_tel, fiche.urgence_email];
+  const rl2Commence = rl2.some(x => x !== '');
+  const rl2Complet  = rl2.every(x => x !== '');
 
   /* Les memes controles existent cote serveur. Ceux-ci ne sont la
      que pour eviter un aller-retour et dire OU ca coince. */
   const manque =
       !fiche.prenom || !fiche.nom ? "Le prénom et le nom du participant sont nécessaires."
     : !fiche.naissance            ? "La date de naissance est nécessaire."
-    : !fiche.taille               ? "Choisissez la taille du t-shirt."
-    : !fiche.resp_nom || !fiche.resp_tel ? "Le nom et le téléphone du responsable légal sont nécessaires."
-    : !fiche.urgence_nom || !fiche.urgence_tel ? "Indiquez une deuxième personne à prévenir, avec son téléphone."
+    : !fiche.resp_prenom || !fiche.resp_nom ? "Le prénom et le nom du représentant légal sont nécessaires."
+    : chiffres(fiche.resp_tel).length < 10 ? "Le téléphone portable du représentant légal n'est pas complet."
+    : !emailOk(fiche.resp_email)  ? "L'email du représentant légal n'est pas valide."
+    : !fiche.adresse              ? "L'adresse est nécessaire."
+    : !/^\d{5}$/.test(fiche.code_postal) ? "Le code postal doit comporter cinq chiffres."
+    : !fiche.ville                ? "La ville est nécessaire."
+    : rl2Commence && !rl2Complet  ? "Pour le deuxième représentant légal, indiquez le prénom, le nom, le portable et l'email — ou laissez les quatre champs vides."
+    : rl2Commence && chiffres(fiche.urgence_tel).length < 10
+        ? "Le téléphone portable du deuxième représentant légal n'est pas complet."
+    : rl2Commence && !emailOk(fiche.urgence_email)
+        ? "L'email du deuxième représentant légal n'est pas valide."
     /* Deux fois le meme numero, c'est deux fois rien le jour ou
-       personne ne repond. Le serveur le refuse aussi ; le dire ici
-       evite de le decouvrir apres avoir rempli toute la fiche. */
-    : fiche.resp_tel.replace(/\D+/g, '') === fiche.urgence_tel.replace(/\D+/g, '')
-        ? "Les deux numéros à prévenir sont identiques. Indiquez une autre personne."
+       personne ne repond. */
+    : rl2Commence && chiffres(fiche.resp_tel) === chiffres(fiche.urgence_tel)
+        ? "Les deux portables sont identiques. Indiquez une autre personne, ou laissez le deuxième bloc vide."
     : !fiche.droit_image          ? "Indiquez si vous autorisez ou non le droit à l'image."
     : !fiche.sante                ? "Répondez à la question du questionnaire de santé."
     : !fiche.soins                ? "L'autorisation de soins et d'urgence est obligatoire pour participer au stage."
     : !fiche.vaccins              ? "L'attestation de vaccinations à jour est obligatoire."
-    : !fiche.signataire           ? "Signez la fiche en indiquant votre nom."
+    : !fiche.certifie             ? "Cochez la case de signature en bas de la fiche."
     : null;
   if (manque) {
     const z = $('#bq-f-erreur');
@@ -826,8 +904,7 @@ $('#bq-f-valider').addEventListener('click', () => {
   const cat = categorie(fiche.naissance, s.date_debut);
   ajouter({
     type: 'stage', stage_id: s.id, quantite: 1, libelle: s.nom, prix: s.prix,
-    resume: fiche.prenom + ' ' + fiche.nom + (cat ? ' · ' + cat : '') +
-            ' · t-shirt ' + fiche.taille,
+    resume: fiche.prenom + ' ' + fiche.nom + (cat ? ' · ' + cat : ''),
     participant: fiche.prenom + ' ' + fiche.nom,
     fiche: fiche, choix: []
   });
@@ -875,18 +952,35 @@ function dessinerPanier() {
 /* ============================================================
    ENVOI
    ============================================================ */
+/* La petite phrase sous le bouton dit ce qui va se passer au
+   clic. « Paiement securise par HelloAsso » sous un bouton qui
+   n'ouvre aucun paiement est une promesse non tenue. */
+$('#bq-paiement').addEventListener('change', () => {
+  const c = $('#bq-form').querySelector('input[name="paiement"]:checked');
+  const enLigne = !c || c.value === 'enligne';
+  $('#bq-mention-paiement').textContent = enLigne
+    ? 'Paiement sécurisé par HelloAsso'
+    : 'Votre place est réservée, vous réglez au gymnase';
+  $('#bq-valider').textContent = enLigne ? 'Valider et payer' : 'Valider ma commande';
+});
+
 $('#bq-form').addEventListener('submit', async ev => {
   ev.preventDefault();
   const err = $('#bq-erreur');
   err.hidden = true;
   const f = ev.target;
+  const choisi = f.querySelector('input[name="paiement"]:checked');
   const client = {
     prenom: f.prenom.value.trim(), nom: f.nom.value.trim(),
     email: f.email.value.trim(), telephone: f.telephone.value.trim(),
-    note: f.note.value.trim()
+    note: f.note.value.trim(), paiement: choisi ? choisi.value : 'enligne'
   };
   if (!client.prenom || !client.nom || !client.email) {
     err.textContent = "Votre prénom, votre nom et votre adresse email sont nécessaires.";
+    err.hidden = false; return;
+  }
+  if (!choisi) {
+    err.textContent = "Choisissez comment vous réglez.";
     err.hidden = false; return;
   }
 
@@ -902,6 +996,24 @@ $('#bq-form').addEventListener('submit', async ev => {
        pouvoir la repasser une seconde fois sans s'en rendre compte. */
     panier = []; ranger();
 
+    /* RÈGLEMENT SUR PLACE : rien à rediriger, la place est prise.
+       La famille a signé la fiche et donné son nom ; le bureau
+       encaissera au gymnase. On le lui confirme ici plutôt que de
+       l'envoyer vers une page de paiement qu'elle n'a pas demandée. */
+    if (!cmd.en_ligne) {
+      document.querySelector('#bq-section-panier .conteneur').innerHTML =
+        '<h2 class="section__titre">C\'est enregistré</h2>' +
+        '<div class="bq-msg bq-msg--ok"><strong>Commande ' + esc(cmd.reference) +
+        '</strong> — ' + eur(cmd.total) + ', à régler en ' + esc(cmd.mode_libelle).toLowerCase() +
+        ' au gymnase.<br>Votre place est réservée.</div>' +
+        '<p>Un accusé de réception vient de partir vers votre adresse email. ' +
+        'Présentez-vous à un coach ou à un membre du bureau pour le règlement.</p>';
+      $('#bq-barre').classList.remove('on');
+      window.scrollTo({top: document.querySelector('#bq-section-panier').offsetTop - 60,
+                       behavior: 'smooth'});
+      return;
+    }
+
     b.textContent = 'Redirection vers le paiement…';
     const r = await fetch(BQ_PAY, {
       method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -912,13 +1024,16 @@ $('#bq-form').addEventListener('submit', async ev => {
 
     /* Le paiement en ligne n'a pas pu s'ouvrir. La commande, elle,
        est bien enregistree : on le dit clairement plutot que de
-       laisser croire que tout est perdu. */
+       laisser croire que tout est perdu. Sa place n'est pas encore
+       retenue, et il faut le dire aussi — c'est precisement ce que
+       la famille doit savoir pour rappeler le club vite. */
     document.querySelector('#bq-section-panier .conteneur').innerHTML =
       '<h2 class="section__titre">Commande enregistrée</h2>' +
       '<div class="bq-msg bq-msg--ok"><strong>Votre commande ' + esc(cmd.reference) +
       '</strong> est bien enregistrée, pour ' + eur(cmd.total) + '.<br>' +
-      "Le paiement en ligne n'a pas pu s'ouvrir. Le bureau vous recontacte pour le règlement — " +
-      'vous pouvez aussi payer au gymnase.</div>' +
+      "Le paiement en ligne n'a pas pu s'ouvrir, et la place n'est donc pas encore retenue. " +
+      'Écrivez-nous à <a href="mailto:boutique@bcgondreville.fr">boutique@bcgondreville.fr</a> — ' +
+      'on vous renvoie le lien, ou on vous garde la place pour un règlement au gymnase.</div>' +
       '<p>Un accusé de réception vient de partir vers votre adresse email.</p>';
     $('#bq-barre').classList.remove('on');
   } catch (e) {
@@ -967,7 +1082,11 @@ $('#bq-form').addEventListener('submit', async ev => {
     if (!art && !st) return;
     if (!art) $('#bq-section-haut').hidden = true;
   })();
-  $('#bq-remise').innerHTML = '<strong>Comment je récupère ma commande ?</strong> ' + esc(CAT.remise);
+  /* Le bloc « Comment je recupere ma commande ? » a ete retire :
+     la phrase de remise parle d'equipements a recuperer au gymnase,
+     elle n'a aucun sens sous une inscription a un stage. CAT.remise
+     existe toujours cote API, pret a etre reaffiche le jour ou les
+     equipements reviennent. */
 
   if (!CAT.ouverte) { $('#bq-fermee').hidden = false; return; }
 

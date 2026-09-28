@@ -216,14 +216,17 @@
     <form id="bq-form" style="margin-top:24px" novalidate>
       <h3 style="font-family:var(--titre);font-size:22px;margin:0 0 4px">Qui commande ?</h3>
       <p style="font-size:13.5px;color:var(--txt-sombre-2);margin:0 0 16px">
-        Ces informations servent à vous prévenir quand la commande est prête. Rien d'autre.</p>
+        Ces informations servent à vous prévenir quand la commande est prête. Rien d'autre.
+        <span id="bq-repris" hidden><strong>Repris de la fiche d'inscription</strong> —
+        corrigez si l'acheteur n'est pas le représentant légal.</span></p>
       <div class="bq-form">
         <label class="bq-champ"><span>Prénom</span><input name="prenom" required autocomplete="given-name"></label>
         <label class="bq-champ"><span>Nom</span><input name="nom" required autocomplete="family-name"></label>
         <label class="bq-champ l2"><span>Adresse email</span>
           <input name="email" type="email" required autocomplete="email" placeholder="pour l'accusé de réception"></label>
-        <label class="bq-champ"><span>Téléphone <em style="font-weight:400;text-transform:none">— facultatif</em></span>
-          <input name="telephone" type="tel" autocomplete="tel"></label>
+        <label class="bq-champ"><span>Téléphone portable</span>
+          <input name="telephone" type="tel" inputmode="tel" autocomplete="tel"
+                 placeholder="06 12 34 56 78"></label>
         <label class="bq-champ l2"><span>Un mot pour nous <em style="font-weight:400;text-transform:none">— facultatif</em></span>
           <input name="note" placeholder="Pour l'anniversaire de Louise, à récupérer avant le 12…"></label>
       </div>
@@ -929,6 +932,20 @@ $('#bq-f-valider').addEventListener('click', () => {
     participant: fiche.prenom + ' ' + fiche.nom,
     fiche: fiche, choix: []
   });
+  /* CE QU'ON VIENT DE SAISIR NE SE REDEMANDE PAS.
+     Le representant legal est presque toujours celui qui commande :
+     lui refaire taper prenom, nom, email et telephone trois lignes
+     plus bas, c'est le meilleur moyen de le perdre. On ne remplit
+     que les cases vides — si l'acheteur est quelqu'un d'autre, ce
+     qu'il a deja tape n'est pas ecrase. */
+  const cmd = $('#bq-form');
+  let repris = false;
+  [['prenom', fiche.resp_prenom], ['nom', fiche.resp_nom],
+   ['email', fiche.resp_email], ['telephone', fiche.resp_tel]].forEach(([champ, valeur]) => {
+    if (cmd[champ] && !cmd[champ].value.trim() && valeur) { cmd[champ].value = valeur; repris = true; }
+  });
+  if (repris) $('#bq-repris').hidden = false;
+
   fermerFiche();
 });
 
@@ -998,6 +1015,12 @@ $('#bq-form').addEventListener('submit', async ev => {
   };
   if (!client.prenom || !client.nom || !client.email) {
     err.textContent = "Votre prénom, votre nom et votre adresse email sont nécessaires.";
+    err.hidden = false; return;
+  }
+  /* Le telephone n'est plus facultatif : c'est par la qu'on previent
+     qu'une commande est prete, ou qu'il manque un certificat. */
+  if (client.telephone.replace(/\D+/g, '').length < 10) {
+    err.textContent = "Votre téléphone portable est nécessaire, et il n'est pas complet.";
     err.hidden = false; return;
   }
   if (!choisi) {

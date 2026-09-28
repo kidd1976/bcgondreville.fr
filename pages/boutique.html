@@ -37,7 +37,11 @@
   letter-spacing:.4px;color:var(--txt-sombre-2);margin-bottom:3px}
 .bq-champ select,.bq-champ input{width:100%;padding:9px 11px;font:inherit;font-size:14px;
   border:1px solid rgba(0,0,0,.18);border-radius:8px;background:#fff}
-.bq-aide{font-size:11.5px;color:var(--txt-sombre-2);margin-top:3px}
+.bq-aide,.bq-champ .bq-aide{font-size:11.5px;color:var(--txt-sombre-2);margin-top:3px;
+  /* .bq-champ span met tout en majuscules : c'est fait pour les
+     intitules, pas pour une phrase d'aide. « LE T-SHIRT DU STAGE EST
+     OFFERT » se crie, il ne se lit pas. */
+  text-transform:none;font-weight:400;letter-spacing:0}
 .bq-bas{margin-top:auto;display:flex;gap:9px;align-items:center;padding-top:6px}
 .bq-qte{width:74px;padding:9px;font:inherit;text-align:center;border:1px solid rgba(0,0,0,.18);border-radius:8px}
 .bq-mention{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px;
@@ -71,6 +75,68 @@
 .bq-barre.on{display:flex}
 .bq-barre .r{font-family:var(--titre);font-size:20px;font-weight:900}
 @media (min-width:900px){ .bq-barre{display:none !important} }
+
+/* Le visuel d'un stage, quand il n'a pas de photo : le logo du club
+   plutot qu'un pictogramme. Un trophee ne veut rien dire ; le logo
+   dit de qui vient le stage. « contain » et non « cover » : un logo
+   recadre est un logo abime. */
+/* Un bouton ferme doit en avoir l'air. « Bientot » en plein or se
+   lit comme un bouton qui marche, et on clique trois fois avant de
+   comprendre que non. */
+.bq-carte .btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.55)}
+.bq-visuel--logo{background:linear-gradient(160deg,#0c5236,#0c2818)}
+.bq-visuel--logo img{width:auto;height:64%;max-width:72%;object-fit:contain;
+  border-radius:10px;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+
+/* ---------- La fiche d'inscription au stage ---------- */
+/* L'en-tete du site est en z-index 100 et colle en haut : a 60, la
+   fiche passait dessous et son titre disparaissait. */
+.bq-voile{position:fixed;inset:0;z-index:200;background:rgba(9,20,14,.6);
+  display:flex;align-items:flex-start;justify-content:center;padding:26px 16px;overflow-y:auto}
+.bq-voile[hidden]{display:none}
+.bq-feuille{background:#fff;border-radius:16px;width:100%;max-width:660px;margin:auto;
+  box-shadow:0 26px 64px rgba(0,0,0,.4)}
+.bq-feuille__haut{position:sticky;top:0;z-index:2;background:#0c2818;color:#fff;
+  border-radius:16px 16px 0 0;padding:15px 20px;display:flex;align-items:center;
+  justify-content:space-between;gap:14px}
+.bq-feuille__haut h2{font-family:var(--titre);font-size:23px;margin:0;line-height:1.15;color:#fff}
+.bq-feuille__haut .q{display:block;font-size:12.5px;font-weight:400;opacity:.8;
+  font-family:Lato,sans-serif;margin-top:2px}
+.bq-fermer{border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;line-height:1;
+  width:36px;height:36px;border-radius:9px;cursor:pointer;flex-shrink:0}
+.bq-feuille__corps{padding:20px}
+.bq-feuille__bas{position:sticky;bottom:0;background:#fff;border-top:1px solid rgba(0,0,0,.1);
+  padding:14px 20px;display:flex;gap:12px;align-items:center;justify-content:flex-end;
+  flex-wrap:wrap;border-radius:0 0 16px 16px}
+.bq-bloc{border:1px solid rgba(0,0,0,.1);border-radius:12px;padding:15px 16px;margin-bottom:15px}
+.bq-bloc > h3{font-family:var(--titre);font-size:18px;margin:0 0 3px}
+.bq-bloc > .sous{font-size:13px;color:var(--txt-sombre-2);margin:0 0 12px}
+.bq-duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px}
+.bq-duo .l2{grid-column:1/-1}
+.bq-choix{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;cursor:pointer;
+  border:1px solid rgba(0,0,0,.14);border-radius:10px;margin-top:8px;font-size:14px;line-height:1.5}
+.bq-choix input{margin-top:3px;flex-shrink:0;width:18px;height:18px}
+.bq-choix:has(input:checked){border-color:#0c5236;background:rgba(12,82,54,.07)}
+.bq-choix b{display:block}
+.bq-choix .p{color:var(--txt-sombre-2);font-size:13px}
+.bq-feuille textarea{width:100%;padding:9px 11px;font:inherit;font-size:14px;
+  border:1px solid rgba(0,0,0,.18);border-radius:8px;background:#fff;resize:vertical}
+.bq-feuille details{margin-top:10px;border:1px solid rgba(0,0,0,.12);border-radius:10px;
+  background:rgba(0,0,0,.02)}
+.bq-feuille summary{cursor:pointer;padding:11px 14px;font-weight:700;font-size:14px}
+.bq-feuille details .dedans{padding:0 16px 14px;font-size:13.5px;line-height:1.65;
+  color:var(--txt-sombre-2)}
+.bq-feuille details ul{margin:5px 0 12px;padding-left:20px}
+.bq-feuille details li{margin:2px 0}
+.bq-feuille details h4{font-size:12px;text-transform:uppercase;letter-spacing:.6px;
+  margin:12px 0 2px;color:var(--txt-sombre)}
+.bq-oblig{color:#a33}
+@media (max-width:640px){
+  .bq-voile{padding:0}
+  .bq-feuille{border-radius:0;min-height:100%;max-width:none}
+  .bq-feuille__haut,.bq-feuille__bas{border-radius:0}
+  .bq-feuille__bas button{flex:1}
+}
 </style>
 </head>
 <body>
@@ -100,13 +166,12 @@
 <section class="hero" style="padding:44px 0 52px">
   <div class="conteneur">
     <div class="hero__eyebrow" id="bq-saison">Boutique du club</div>
-    <h1 style="font-size:clamp(30px,6vw,48px)">Les couleurs<span>du club</span></h1>
-    <p>Sweats, maillots, sacs et gourdes, et les stages de vacances. Ouvert à tout le monde,
-      licencié ou non — pour offrir, ou pour soi.</p>
+    <h1 style="font-size:clamp(30px,6vw,48px)" id="bq-titre">Les couleurs<span>du club</span></h1>
+    <p id="bq-chapeau">Ouvert à tout le monde, licencié ou non.</p>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="bq-section-haut">
   <div class="conteneur">
     <div id="bq-etat" class="bq-vide">Chargement de la boutique…</div>
 
@@ -122,13 +187,18 @@
         La remise se fait en main propre au gymnase.</p>
       <div class="bq-grille" id="bq-articles"></div>
     </div>
+  </div>
+</section>
 
-    <div id="bq-bloc-stages" hidden style="margin-top:46px">
-      <h2 class="section__titre">Les stages</h2>
-      <p class="section__intro">Ouverts aux licenciés comme aux autres. Le nombre de places est limité
-        par le nombre d'encadrants.</p>
-      <div class="bq-grille" id="bq-stages"></div>
-    </div>
+<section class="section" id="bq-bloc-stages" hidden style="background:rgba(12,82,54,.06);
+         border-top:1px solid rgba(12,82,54,.14);border-bottom:1px solid rgba(12,82,54,.14)">
+  <div class="conteneur">
+    <h2 class="section__titre">Les stages de vacances</h2>
+    <p class="section__intro">Ouverts aux licenciés du club comme à ceux qui n'en sont pas encore.
+      <strong>Le nombre de places est limité</strong> — il dépend du nombre d'encadrants, pas de la
+      salle. Une place réservée n'est plus disponible pour quelqu'un d'autre, même avant le
+      règlement.</p>
+    <div class="bq-grille" id="bq-stages"></div>
   </div>
 </section>
 
@@ -172,6 +242,211 @@
 <div class="bq-barre" id="bq-barre">
   <div><span id="bq-barre-n">0 article</span> · <span class="r" id="bq-barre-total">0,00 €</span></div>
   <a href="#bq-section-panier" class="btn btn--or" style="padding:9px 18px">Voir ma commande</a>
+</div>
+
+<!-- ============================================================
+     LA FICHE D'INSCRIPTION AU STAGE
+
+     Elle s'ouvre quand on clique « S'inscrire » sur un stage. Elle
+     vit dans la page plutot que d'etre fabriquee en JavaScript :
+     c'est du texte que le club relira et corrigera, notamment les
+     autorisations, et on le relit plus facilement ici que noye
+     dans des concatenations de chaines.
+     ============================================================ -->
+<div class="bq-voile" id="bq-voile" hidden>
+ <div class="bq-feuille" role="dialog" aria-modal="true" aria-labelledby="bq-f-titre">
+  <div class="bq-feuille__haut">
+    <div>
+      <h2 id="bq-f-titre">Inscription au stage</h2>
+      <span class="q" id="bq-f-quand"></span>
+    </div>
+    <button type="button" class="bq-fermer" id="bq-f-fermer" aria-label="Fermer">×</button>
+  </div>
+
+  <form class="bq-feuille__corps" id="bq-fiche" novalidate>
+    <div id="bq-f-erreur" class="bq-msg bq-msg--err" hidden style="margin-top:0"></div>
+
+    <!-- ---------- L'enfant ---------- -->
+    <div class="bq-bloc">
+      <h3>Le participant</h3>
+      <p class="sous">Une fiche par enfant. Pour inscrire un frère ou une sœur,
+        recommencez après celle-ci — la même commande peut en contenir plusieurs.</p>
+      <div class="bq-duo">
+        <label class="bq-champ"><span>Prénom <b class="bq-oblig">*</b></span>
+          <input name="prenom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Nom <b class="bq-oblig">*</b></span>
+          <input name="nom" autocomplete="off"></label>
+        <label class="bq-champ"><span>Date de naissance <b class="bq-oblig">*</b></span>
+          <input name="naissance" type="date">
+          <span class="bq-aide" id="bq-f-cat"></span></label>
+        <label class="bq-champ"><span>Taille du t-shirt <b class="bq-oblig">*</b></span>
+          <select name="taille">
+            <option value="">— choisir —</option>
+            <option>6 ans</option><option>8 ans</option><option>10 ans</option>
+            <option>12 ans</option><option>14 ans</option>
+            <option>XS adulte</option><option>S adulte</option>
+            <option>M adulte</option><option>L adulte</option>
+          </select>
+          <span class="bq-aide">Le t-shirt du stage est offert.</span></label>
+        <label class="bq-champ l2"><span>Club actuel
+            <em style="font-weight:400;text-transform:none">— facultatif</em></span>
+          <input name="club" placeholder="BCG, autre club, ou rien si non licencié"></label>
+      </div>
+    </div>
+
+    <!-- ---------- Qui joindre ---------- -->
+    <div class="bq-bloc">
+      <h3>Qui joindre pendant le stage</h3>
+      <p class="sous">Deux numéros différents : si le premier ne répond pas un mercredi
+        après-midi, il faut pouvoir appeler quelqu'un d'autre.</p>
+      <div class="bq-duo">
+        <label class="bq-champ"><span>Responsable légal <b class="bq-oblig">*</b></span>
+          <input name="resp_nom" placeholder="Prénom et nom"></label>
+        <label class="bq-champ"><span>Son téléphone <b class="bq-oblig">*</b></span>
+          <input name="resp_tel" type="tel" inputmode="tel"></label>
+        <label class="bq-champ l2"><span>Son email
+            <em style="font-weight:400;text-transform:none">— facultatif</em></span>
+          <input name="resp_email" type="email"></label>
+        <label class="bq-champ"><span>Autre personne à prévenir <b class="bq-oblig">*</b></span>
+          <input name="urgence_nom" placeholder="Prénom et nom"></label>
+        <label class="bq-champ"><span>Son téléphone <b class="bq-oblig">*</b></span>
+          <input name="urgence_tel" type="tel" inputmode="tel"></label>
+      </div>
+    </div>
+
+    <!-- ---------- Droit à l'image ----------
+         Repris du formulaire d'inscription et adapte au stage. Le
+         refus est un choix legitime : il est propose tel quel, avec
+         sa consequence dite franchement plutot qu'en petit. -->
+    <div class="bq-bloc">
+      <h3>Droit à l'image</h3>
+      <p class="sous">Le club publie des photos de stage sur le site, les réseaux sociaux
+        et parfois dans la presse locale.</p>
+      <label class="bq-choix"><input type="radio" name="droit_image" value="oui">
+        <span><b>J'autorise</b><span class="p">Les photos et vidéos où mon enfant apparaît
+          peuvent être diffusées sur les supports du BCG : site bcgondreville.fr, réseaux
+          sociaux, presse locale, plaquette partenaires.</span></span></label>
+      <label class="bq-choix"><input type="radio" name="droit_image" value="non">
+        <span><b>Je n'autorise pas</b><span class="p">Mon enfant sera écarté des photos et
+          vidéos de groupe, y compris la photo de fin de stage.</span></span></label>
+    </div>
+
+    <!-- ---------- Santé ----------
+         LES REPONSES NE SONT PAS COLLECTEES, ET C'EST LA REGLE.
+         La famille repond chez elle, garde ses reponses, et ne
+         transmet qu'une attestation. Le club sait s'il doit
+         reclamer un certificat medical, rien de plus. -->
+    <div class="bq-bloc">
+      <h3>Questionnaire de santé</h3>
+      <p class="sous">C'est le questionnaire officiel du Code du sport (annexe II-23).
+        <strong>Vous répondez chez vous, vous gardez vos réponses</strong> : le club ne
+        les reçoit pas et ne les conserve nulle part. Il a seulement besoin de savoir
+        si un certificat médical est nécessaire.</p>
+
+      <details>
+        <summary>Lire les questions</summary>
+        <div class="dedans">
+          <p><em>Faire du sport : c'est recommandé pour tous. En as-tu parlé avec un
+            médecin ? T'a-t-il examiné(e) pour te conseiller ? Ce questionnaire n'est pas
+            un contrôle. Tu réponds par OUI ou par NON, mais il n'y a pas de bonnes ou de
+            mauvaises réponses.</em></p>
+          <h4>Depuis l'année dernière</h4>
+          <ul>
+            <li>Es-tu allé(e) à l'hôpital pendant toute une journée ou plusieurs jours ?</li>
+            <li>As-tu été opéré(e) ?</li>
+            <li>As-tu beaucoup plus grandi que les autres années ?</li>
+            <li>As-tu beaucoup maigri ou grossi ?</li>
+            <li>As-tu eu la tête qui tourne pendant un effort ?</li>
+            <li>As-tu perdu connaissance ou es-tu tombé(e) sans te souvenir de ce qui
+              s'était passé ?</li>
+            <li>As-tu reçu un ou plusieurs chocs violents qui t'ont obligé(e) à interrompre
+              un moment une séance de sport ?</li>
+            <li>As-tu eu beaucoup de mal à respirer pendant un effort par rapport à
+              d'habitude ?</li>
+            <li>As-tu eu beaucoup de mal à respirer après un effort ?</li>
+            <li>As-tu eu mal dans la poitrine ou des palpitations (le cœur qui bat très
+              vite) ?</li>
+            <li>As-tu commencé à prendre un nouveau médicament tous les jours et pour
+              longtemps ?</li>
+            <li>As-tu arrêté le sport à cause d'un problème de santé pendant un mois ou
+              plus ?</li>
+          </ul>
+          <h4>Depuis un certain temps (plus de 2 semaines)</h4>
+          <ul>
+            <li>Te sens-tu très fatigué(e) ?</li>
+            <li>As-tu du mal à t'endormir ou te réveilles-tu souvent dans la nuit ?</li>
+            <li>Sens-tu que tu as moins faim ? que tu manges moins ?</li>
+            <li>Te sens-tu triste ou inquiet(e) ?</li>
+            <li>Pleures-tu plus souvent ?</li>
+            <li>Ressens-tu une douleur ou un manque de force à cause d'une blessure ?</li>
+          </ul>
+          <h4>Aujourd'hui</h4>
+          <ul>
+            <li>Penses-tu quelquefois à arrêter de faire du sport ou à changer de sport ?</li>
+            <li>Penses-tu avoir besoin de voir ton médecin pour continuer le sport ?</li>
+            <li>Souhaites-tu signaler quelque chose de plus concernant ta santé ?</li>
+          </ul>
+          <h4>Questions aux parents ou au représentant légal</h4>
+          <ul>
+            <li>Quelqu'un dans votre famille proche a-t-il eu une maladie grave du cœur
+              ou du cerveau ?</li>
+            <li>Êtes-vous inquiet pour son poids ? Trouvez-vous qu'il se nourrit trop ou
+              pas assez ?</li>
+            <li>Avez-vous manqué l'examen de santé prévu à l'âge de votre enfant ?</li>
+          </ul>
+          <p><strong>Si vous avez répondu OUI à une ou plusieurs questions</strong>, il faut
+            consulter un médecin, qui examinera l'enfant et verra avec vous quel sport lui
+            convient.</p>
+        </div>
+      </details>
+
+      <label class="bq-choix"><input type="radio" name="sante" value="rien">
+        <span><b>Aucune réponse « oui »</b><span class="p">Rien à signaler : aucun
+          certificat médical n'est demandé.</span></span></label>
+      <label class="bq-choix"><input type="radio" name="sante" value="certificat">
+        <span><b>Au moins une réponse « oui »</b><span class="p">Un certificat médical
+          de non-contre-indication à la pratique du basket sera à remettre avant le premier
+          jour. L'inscription reste valable en attendant.</span></span></label>
+    </div>
+
+    <!-- ---------- Autorisations ---------- -->
+    <div class="bq-bloc">
+      <h3>Autorisations du représentant légal</h3>
+      <label class="bq-choix"><input type="checkbox" name="soins">
+        <span><b>Soins et urgences <span class="bq-oblig">*</span></b><span class="p">
+          J'autorise l'encadrement à faire soigner mon enfant et à faire pratiquer les
+          interventions d'urgence rendues nécessaires par son état, y compris son transport
+          vers un établissement de soins. Je serai prévenu(e) sans délai.</span></span></label>
+      <label class="bq-choix"><input type="checkbox" name="vaccins">
+        <span><b>Vaccinations <span class="bq-oblig">*</span></b><span class="p">
+          J'atteste que les vaccinations obligatoires de mon enfant (notamment DTP) sont
+          à jour.</span></span></label>
+
+      <label class="bq-champ" style="margin-top:14px">
+        <span>À signaler à l'encadrement
+          <em style="font-weight:400;text-transform:none">— facultatif</em></span>
+        <textarea name="a_signaler" rows="3"
+          placeholder="Allergie alimentaire, traitement à prendre sur place, PAI, port de lunettes…"></textarea>
+        <span class="bq-aide">Lu uniquement par les encadrants du stage et le bureau.
+          N'écrivez que ce qui est utile sur le terrain.</span></label>
+    </div>
+
+    <!-- ---------- Signature ---------- -->
+    <div class="bq-bloc">
+      <h3>Signature</h3>
+      <p class="sous">Votre nom vaut signature. La date et l'heure sont enregistrées
+        avec la fiche.</p>
+      <label class="bq-champ"><span>Nom du représentant légal <b class="bq-oblig">*</b></span>
+        <input name="signataire" placeholder="Prénom et nom"></label>
+    </div>
+  </form>
+
+  <div class="bq-feuille__bas">
+    <button type="button" class="btn" id="bq-f-annuler"
+      style="background:none;border:1px solid rgba(0,0,0,.2);color:var(--txt-sombre-2)">Annuler</button>
+    <button type="button" class="btn btn--or" id="bq-f-valider">Ajouter à ma commande</button>
+  </div>
+ </div>
 </div>
 
 <footer class="pied">
@@ -321,7 +596,23 @@ function carteArticle(a) {
      annonce « 55 € » sur une carte dont le XXL en coute 58. */
   function rafraichir() {
     const c = lire();
-    if (a.prix !== null || Object.keys(c).length) $('[data-prix]', d).textContent = eur(prixArticle(a, c));
+    /* UN ARTICLE SANS PRIX SE MONTRE, MAIS NE SE COMMANDE PAS.
+       C'est l'etat « bientot » : on veut que les familles voient
+       arriver le sweat, sans pouvoir le commander tant que le
+       tarif n'est pas arrete. Le bouton se ferme donc de lui-meme
+       plutot que de laisser ajouter au panier un article que le
+       serveur refuserait au moment de valider. */
+    const p = prixArticle(a, c);
+    const bouton = $('.bq-bas button', d);
+    if (p > 0) {
+      $('[data-prix]', d).textContent = eur(p);
+      bouton.disabled = false;
+      bouton.textContent = 'Ajouter';
+    } else {
+      $('[data-prix]', d).textContent = 'Tarif à venir';
+      bouton.disabled = true;
+      bouton.textContent = 'Bientôt';
+    }
     let promesse = a.promesse;
     (a.options || []).forEach(o => {
       if (o.type !== 'liste' || o.effet !== 'remplace') return;
@@ -334,7 +625,8 @@ function carteArticle(a) {
   zone.addEventListener('change', rafraichir);
   rafraichir();
 
-  $('.bq-bas button', d).addEventListener('click', () => {
+  $('.bq-bas button', d).addEventListener('click', ev => {
+    if (ev.currentTarget.disabled) return;
     const c = lire();
     const manque = (a.options || []).find(o => o.obligatoire && !String(c[o.code] || '').trim());
     if (manque) { alert('Choisissez « ' + manque.libelle +' ».'); return; }
@@ -362,26 +654,65 @@ function carteArticle(a) {
   return d;
 }
 
+/* « Du 26 au 30 octobre 2026 » plutot que la seule date de debut :
+   un stage de cinq jours annonce par un seul jour se lit comme une
+   journee unique, et la famille pose un seul jour de conge. */
+function periode(debut, fin) {
+  const jour = d => (d.getDate() === 1 ? '1er' : String(d.getDate()));
+  const a = new Date(debut + 'T12:00:00');
+  const mois = d => d.toLocaleDateString('fr-FR', {month: 'long'});
+  if (!fin || fin === debut) return 'Le ' + jour(a) + ' ' + mois(a) + ' ' + a.getFullYear();
+  const b = new Date(fin + 'T12:00:00');
+  const memeMois = a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+  return 'Du ' + jour(a) + (memeMois ? '' : ' ' + mois(a)) +
+         ' au ' + jour(b) + ' ' + mois(b) + ' ' + b.getFullYear();
+}
+
+/* La categorie FFBB se deduit de l'annee de naissance et de la
+   saison : U11 en 2026-2027, ce sont les enfants nes en 2016 et
+   2017. On l'affiche pour que la famille verifie d'un coup d'oeil
+   qu'elle est sur le bon stage ; on ne refuse rien ici, c'est le
+   coach qui tranche les cas limites. */
+function categorie(ddn, dateStage) {
+  const n = new Date(ddn + 'T12:00:00');
+  if (isNaN(n)) return '';
+  const s = new Date(dateStage + 'T12:00:00');
+  const finSaison = s.getMonth() >= 6 ? s.getFullYear() + 1 : s.getFullYear();
+  const age = finSaison - n.getFullYear();
+  if (age < 4 || age > 25) return '';
+  return 'U' + (age % 2 === 0 ? age + 1 : age);
+}
+
 function carteStage(s) {
   const complet = (s.restantes !== null && s.restantes <= 0);
   const d = document.createElement('article');
   d.className = 'bq-carte';
-  const quand = new Date(s.date_debut + 'T12:00:00').toLocaleDateString('fr-FR',
-                  {day: 'numeric', month: 'long', year: 'numeric'});
   d.innerHTML =
-    '<div class="bq-visuel">' +
-      (s.image ? '<img src="' + esc(s.image) + '" alt="' + esc(s.nom) + '" loading="lazy">'
-               : '<span class="vide">🏆</span>') + '</div>' +
+    '<div class="bq-visuel' + (s.image ? '' : ' bq-visuel--logo') + '">' +
+      '<img src="' + (s.image ? esc(s.image) : '../assets/img/logo-bcg.jpg') + '" alt="' +
+        (s.image ? esc(s.nom) : 'Basket Club de Gondreville') + '" loading="lazy">' +
+    '</div>' +
     '<div class="bq-corps">' +
       '<div class="bq-nom">' + esc(s.nom) + '</div>' +
-      '<div class="bq-desc">' + esc(quand) + (s.horaires ? ' · ' + esc(s.horaires) : '') +
+      '<div class="bq-desc"><strong>' + esc(periode(s.date_debut, s.date_fin)) + '</strong>' +
+        (s.horaires ? '<br>' + esc(s.horaires) : '') +
         (s.lieu ? '<br>' + esc(s.lieu) : '') +
         (s.categories ? '<br>' + esc(s.categories) : '') + '</div>' +
       (s.description ? '<p class="bq-desc">' + esc(s.description) + '</p>' : '') +
       '<div class="bq-prix">' + (s.prix !== null ? eur(s.prix) : 'Tarif à venir') + '</div>' +
-      '<div class="bq-delai">' + (s.restantes === null ? 'Inscriptions ouvertes'
-        : complet ? 'Complet' : s.restantes + ' place' + (s.restantes > 1 ? 's' : '') + ' restante' + (s.restantes > 1 ? 's' : '')) + '</div>' +
-      '<label class="bq-champ"><span>Prénom et nom du participant</span><input data-part></label>' +
+      '<div class="bq-delai">' + (s.restantes === null
+          ? (s.places > 0 ? s.places + ' places' : 'Inscriptions ouvertes')
+          : complet ? 'Complet'
+          : s.restantes === s.places
+            ? s.places + ' places'
+            : s.restantes + ' place' + (s.restantes > 1 ? 's' : '') + ' restante'
+              + (s.restantes > 1 ? 's' : '') + ' sur ' + s.places) + '</div>' +
+      /* Le champ du participant ne sert que si l'inscription est
+         possible. Sur un stage « Bientot » ou complet, il invitait a
+         taper un nom que rien ne pouvait ensuite enregistrer. */
+      (complet || s.prix === null ? '' :
+        '<label class="bq-champ"><span>Prénom et nom du participant</span>' +
+        '<input data-part autocomplete="off"></label>') +
       '<div class="bq-bas">' +
         '<button class="btn btn--or" type="button" style="flex:1"' +
           (complet || s.prix === null ? ' disabled' : '') + '>' +
@@ -389,14 +720,119 @@ function carteStage(s) {
       '</div>' +
     '</div>';
   const b = $('.bq-bas button', d);
-  if (!complet && s.prix !== null) b.addEventListener('click', () => {
-    const qui = $('[data-part]', d).value.trim();
-    if (!qui) { alert('Indiquez le prénom et le nom du participant.'); return; }
-    ajouter({type: 'stage', stage_id: s.id, quantite: 1, libelle: s.nom,
-             prix: s.prix, resume: qui, participant: qui, choix: []});
-  });
+  if (!complet && s.prix !== null) {
+    b.addEventListener('click', () => ouvrirFiche(s, $('[data-part]', d).value.trim()));
+  }
   return d;
 }
+
+/* ============================================================
+   LA FICHE D'INSCRIPTION
+
+   Un stage n'est pas un sweat : il faut savoir qui vient, qui
+   appeler, et ce que le representant legal autorise. Tout cela
+   est demande AVANT le paiement, une fois, dans une seule
+   feuille — plutot qu'en trois relances par mail la veille.
+   ============================================================ */
+let stageEnCours = null;
+
+function ouvrirFiche(s, nomSaisi) {
+  stageEnCours = s;
+  const f = $('#bq-fiche');
+  f.reset();
+  $('#bq-f-erreur').hidden = true;
+  $('#bq-f-cat').textContent = '';
+  $('#bq-f-titre').textContent = s.nom;
+  $('#bq-f-quand').textContent = periode(s.date_debut, s.date_fin) +
+    (s.categories ? ' · ' + s.categories : '');
+
+  /* Le nom tape sur la carte n'est pas perdu : « Jules Martin »
+     devient prenom Jules, nom Martin. Retaper ce qu'on vient
+     d'ecrire est la meilleure facon de faire fermer un formulaire. */
+  if (nomSaisi) {
+    const m = nomSaisi.split(/\s+/);
+    f.prenom.value = m.shift() || '';
+    f.nom.value = m.join(' ');
+  }
+  $('#bq-voile').hidden = false;
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => (f.prenom.value ? f.naissance : f.prenom).focus(), 60);
+}
+
+function fermerFiche() {
+  $('#bq-voile').hidden = true;
+  document.body.style.overflow = '';
+  stageEnCours = null;
+}
+
+$('#bq-f-fermer').addEventListener('click', fermerFiche);
+$('#bq-f-annuler').addEventListener('click', fermerFiche);
+$('#bq-voile').addEventListener('click', ev => { if (ev.target.id === 'bq-voile') fermerFiche(); });
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape' && !$('#bq-voile').hidden) fermerFiche();
+});
+/* Entree dans un champ ne doit pas valider la fiche en silence. */
+$('#bq-fiche').addEventListener('submit', ev => ev.preventDefault());
+
+$('#bq-fiche').naissance.addEventListener('change', function () {
+  const c = stageEnCours ? categorie(this.value, stageEnCours.date_debut) : '';
+  $('#bq-f-cat').textContent = c ? 'Catégorie ' + c + ' cette saison.' : '';
+});
+
+$('#bq-f-valider').addEventListener('click', () => {
+  const s = stageEnCours;
+  if (!s) return;
+  const f = $('#bq-fiche');
+  const v = n => String((f[n] && f[n].value) || '').trim();
+  const coche = n => !!(f[n] && f[n].checked);
+  const radio = n => { const e = f.querySelector('input[name="' + n + '"]:checked'); return e ? e.value : ''; };
+
+  const fiche = {
+    prenom: v('prenom'), nom: v('nom'), naissance: v('naissance'),
+    taille: v('taille'), club: v('club'),
+    resp_nom: v('resp_nom'), resp_tel: v('resp_tel'), resp_email: v('resp_email'),
+    urgence_nom: v('urgence_nom'), urgence_tel: v('urgence_tel'),
+    droit_image: radio('droit_image'), sante: radio('sante'),
+    soins: coche('soins'), vaccins: coche('vaccins'),
+    a_signaler: v('a_signaler'), signataire: v('signataire')
+  };
+
+  /* Les memes controles existent cote serveur. Ceux-ci ne sont la
+     que pour eviter un aller-retour et dire OU ca coince. */
+  const manque =
+      !fiche.prenom || !fiche.nom ? "Le prénom et le nom du participant sont nécessaires."
+    : !fiche.naissance            ? "La date de naissance est nécessaire."
+    : !fiche.taille               ? "Choisissez la taille du t-shirt."
+    : !fiche.resp_nom || !fiche.resp_tel ? "Le nom et le téléphone du responsable légal sont nécessaires."
+    : !fiche.urgence_nom || !fiche.urgence_tel ? "Indiquez une deuxième personne à prévenir, avec son téléphone."
+    /* Deux fois le meme numero, c'est deux fois rien le jour ou
+       personne ne repond. Le serveur le refuse aussi ; le dire ici
+       evite de le decouvrir apres avoir rempli toute la fiche. */
+    : fiche.resp_tel.replace(/\D+/g, '') === fiche.urgence_tel.replace(/\D+/g, '')
+        ? "Les deux numéros à prévenir sont identiques. Indiquez une autre personne."
+    : !fiche.droit_image          ? "Indiquez si vous autorisez ou non le droit à l'image."
+    : !fiche.sante                ? "Répondez à la question du questionnaire de santé."
+    : !fiche.soins                ? "L'autorisation de soins et d'urgence est obligatoire pour participer au stage."
+    : !fiche.vaccins              ? "L'attestation de vaccinations à jour est obligatoire."
+    : !fiche.signataire           ? "Signez la fiche en indiquant votre nom."
+    : null;
+  if (manque) {
+    const z = $('#bq-f-erreur');
+    z.textContent = manque; z.hidden = false;
+    z.scrollIntoView({behavior: 'smooth', block: 'center'});
+    return;
+  }
+
+  const cat = categorie(fiche.naissance, s.date_debut);
+  ajouter({
+    type: 'stage', stage_id: s.id, quantite: 1, libelle: s.nom, prix: s.prix,
+    resume: fiche.prenom + ' ' + fiche.nom + (cat ? ' · ' + cat : '') +
+            ' · t-shirt ' + fiche.taille,
+    participant: fiche.prenom + ' ' + fiche.nom,
+    fiche: fiche, choix: []
+  });
+  fermerFiche();
+});
 
 /* ============================================================
    LE PANIER
@@ -506,6 +942,31 @@ $('#bq-form').addEventListener('submit', async ev => {
   }
   $('#bq-etat').hidden = true;
   $('#bq-saison').textContent = 'Boutique du club · saison ' + CAT.saison;
+
+  /* LE CHAPEAU DIT CE QU'IL Y A, PAS CE QU'ON AIMERAIT.
+     Il annoncait « sweats, maillots, sacs et gourdes » meme quand
+     la boutique ne proposait que des stages : le visiteur cherchait
+     alors un rayon qui n'existe pas. Il se construit donc a partir
+     de ce que l'API renvoie vraiment. */
+  (function () {
+    const art = CAT.articles.length, st = CAT.stages.length;
+    let t, titre = null;
+    if (art && st)  t = "Les couleurs du club à porter, et les stages de vacances. Ouvert à tout le monde, licencié ou non — pour offrir, ou pour soi.";
+    else if (st) {
+      t = "Les stages de vacances du club, ouverts à tout le monde, licencié ou non. Les équipements reviendront plus tard dans la saison.";
+      titre = ['Les stages', 'du club'];
+    }
+    else if (art)   t = "Les couleurs du club à porter. Ouvert à tout le monde, licencié ou non — pour offrir, ou pour soi.";
+    else            t = "Rien en ligne pour le moment. Revenez bientôt.";
+    $('#bq-chapeau').textContent = t;
+    /* « Les couleurs du club » au-dessus d'une page qui ne propose que
+       des stages annonce un rayon qui n'existe pas. Le titre suit. */
+    if (titre) $('#bq-titre').innerHTML = esc(titre[0]) + '<span>' + esc(titre[1]) + '</span>';
+    /* Une section vide laisse une bande de couleur sans contenu : on
+       retire le bloc entier, pas seulement son intérieur. */
+    if (!art && !st) return;
+    if (!art) $('#bq-section-haut').hidden = true;
+  })();
   $('#bq-remise').innerHTML = '<strong>Comment je récupère ma commande ?</strong> ' + esc(CAT.remise);
 
   if (!CAT.ouverte) { $('#bq-fermee').hidden = false; return; }

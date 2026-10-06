@@ -65,6 +65,51 @@
       </div>
       <style>.ldsdr{display:inline-block;width:80px;height:80px}.ldsdr:after{content:" ";display:block;width:64px;height:64px;margin:8px;border-radius:50%;border:6px solid #1E457B;border-color:#1E457B transparent;animation:ldsdr 1.2s linear infinite}@keyframes ldsdr{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
       <script async defer src="https://widgets.scorenco.com/host/widgets.js"></script>
+
+      <!-- ═══ GARDE-FOU ═══════════════════════════════════════════
+           Le widget ci-dessus pose un bloc gris et un spinner, puis
+           charge widgets.js qui doit les remplacer par les resultats.
+           Le 6 octobre 2026, ce script renvoyait 503 : personne ne
+           venait donc arreter le spinner, et le visiteur restait
+           devant une page qui tournait indefiniment.
+
+           Au bout de dix secondes sans widget, on remplace le bloc
+           par un message clair et le lien vers la page du club, qui
+           fonctionne de son cote. Si le widget finit par s'afficher,
+           ce code ne touche a rien.
+
+           Dix secondes et non cinq : assez large pour une connexion
+           lente au bord du terrain, assez court pour qu'on ne reste
+           pas plante devant un ecran qui tourne.
+           ═══════════════════════════════════════════════════════ -->
+      <script>
+      (function () {
+        var ATTENTE = 10000;
+
+        setTimeout(function () {
+          var zone = document.querySelector('.scorenco-widget');
+          if (!zone) return;
+
+          /* Le widget a pris la main : il insere un iframe. On s'efface. */
+          if (zone.querySelector('iframe')) return;
+
+          /* On AJOUTE la classe sans ecraser l'originale : le bloc doit
+             rester retrouvable si ce code repasse un jour. Le spinner
+             part avec le innerHTML, il est a l'interieur. */
+          zone.classList.add('brique');
+          zone.setAttribute('style', 'text-align:center;padding:28px 22px');
+          zone.innerHTML =
+            '<h3 style="margin-bottom:8px">Résultats momentanément indisponibles</h3>' +
+            '<p>Le service Scorenco, qui fournit nos scores et nos classements, ne répond ' +
+            'pas pour le moment. Les résultats restent consultables directement sur sa page.</p>' +
+            '<p style="margin-top:16px">' +
+              '<a href="https://scorenco.com/basket/clubs/basket-club-gondreville-2wkt" ' +
+                 'target="_blank" rel="noopener" class="btn btn--or" ' +
+                 'style="padding:10px 18px;font-size:14px">Voir les résultats sur Scorenco</a>' +
+            '</p>';
+        }, ATTENTE);
+      })();
+      </script>
     </div>
   </div>
 </section>

@@ -29,21 +29,31 @@
   /* box-sizing explicite : sans lui, width:100% plus le padding et la
      bordure font un champ plus large que son conteneur, et la page
      defile lateralement sur telephone. */
+  /* COULEUR DU TEXTE IMPOSEE PARTOUT OU JE POSE UN FOND CLAIR.
+     La feuille du site sert du blanc par defaut, pour ses fonds
+     verts. Un fond blanc sans couleur explicite donne donc du
+     blanc sur blanc : les pastilles etaient vides a l'ecran et le
+     texte tape dans les champs etait invisible. */
   .champ input[type=text],.champ select,.champ textarea{width:100%;box-sizing:border-box;
-    padding:11px 12px;
+    padding:11px 12px;color:#1c2b24;
     border:1px solid #b9d8c4;border-radius:9px;font:400 15px Lato,Arial,sans-serif;background:#fff}
+  .champ input[type=text]::placeholder,.champ textarea::placeholder{color:#6b7f74}
   .champ textarea{min-height:88px;resize:vertical}
   .choix{display:flex;flex-wrap:wrap;gap:8px}
-  .choix label{display:inline-flex;align-items:center;gap:7px;min-height:44px;
+  /* La specificite monte a .champ .choix label : la regle du site
+     « .champ label » vise exactement la meme profondeur, et a
+     specificite egale c'est la derniere declaree qui gagne — trop
+     fragile pour un texte qu'on ne doit jamais perdre. */
+  .champ .choix label{display:inline-flex;align-items:center;gap:7px;min-height:44px;
     padding:8px 14px;border:1px solid #b9d8c4;border-radius:999px;background:#fff;
-    font-size:14.5px;cursor:pointer}
-  .choix input{margin:0}
-  .choix label:has(input:checked){background:#0c5236;border-color:#0c5236;color:#fff}
+    color:#1c2b24;font-size:14.5px;cursor:pointer}
+  .choix input{margin:0;width:18px;height:18px;flex:none;accent-color:#0c5236}
+  .champ .choix label:has(input:checked){background:#0c5236;border-color:#0c5236;color:#fff}
   .aide-champ{font-size:12.5px;opacity:.75;margin-top:5px}
   .piege{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   .msg{border-radius:10px;padding:12px 14px;margin-top:14px;font-size:14.5px}
-  .msg--ok{background:#dcefe2;border:1px solid #0c5236}
-  .msg--ko{background:#fde8e8;border:1px solid #c0392b}
+  .msg--ok{background:#dcefe2;border:1px solid #0c5236;color:#0c2818}
+  .msg--ko{background:#fde8e8;border:1px solid #c0392b;color:#5c1a12}
   @media (max-width:560px){ .cpt__n{font-size:30px} }
 </style>
 </head>
@@ -87,9 +97,10 @@
 
     <div class="encart" style="margin-bottom:4px">
       <strong>Pourquoi cette démarche.</strong> Le point d'eau actuel du gymnase donne une eau tiède,
-      souvent teintée et au goût désagréable. Résultat : les enfants ne boivent pas, ou repartent avec
-      leur gourde pleine. Sur un entraînement d'une heure et demie, ce n'est pas un détail de confort,
-      c'est un problème d'hydratation.
+      souvent teintée et au goût désagréable. Les enfants arrivent avec leur gourde, la vident avant la
+      fin de la séance, et ne peuvent pas la remplir : l'eau n'est pas buvable. Ils se retrouvent donc
+      sans pouvoir s'hydrater pendant tout le reste de l'entraînement. Sur une heure et demie, ce n'est
+      pas un détail de confort.
     </div>
     <p class="section__intro" style="margin-top:14px">
       J'adresse un courrier à la mairie de Gondreville pour demander l'installation d'une fontaine à eau
@@ -122,7 +133,7 @@
       <div class="champ">
         <span class="lab">Vous êtes</span>
         <div class="choix">
-          <label><input type="radio" name="qualite" value="parent" required> Parent d'un licencié</label>
+          <label><input type="radio" name="qualite" value="parent" required> Famille d'un licencié</label>
           <label><input type="radio" name="qualite" value="licencie"> Licencié majeur</label>
           <label><input type="radio" name="qualite" value="encadrant"> Encadrant ou dirigeant</label>
           <label><input type="radio" name="qualite" value="autre"> Autre usager du gymnase</label>

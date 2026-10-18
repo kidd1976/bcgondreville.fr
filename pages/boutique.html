@@ -748,6 +748,27 @@ function brancherGalerie(d) {
   rafraichir();
 }
 
+/* CE QUI RESTE, DANS LE MENU DES TAILLES — ajoute le 19/10/2026.
+
+   Le club veut que la famille voie le nombre au moment de choisir,
+   et non seulement une phrase de delai.
+
+   TROIS ETATS, ET ILS NE DISENT PAS LA MEME CHOSE :
+     - un nombre  : il en reste tant, en rayon ;
+     - « sur commande » : zero en reserve, mais commandable — le
+       stock informe, il n'a jamais refuse une commande ici ;
+     - rien du tout : le stock de cette taille n'est pas tenu, et
+       annoncer « 0 » serait un mensonge par defaut.
+
+   Le texte part dans une <option>, qui n'accepte que du texte :
+   pas de gras, pas de couleur. C'est aussi ce qui le rend lisible
+   sur le selecteur natif d'un telephone, ou tout le reste saute. */
+function dispo(v) {
+  if (!v || v.suivi !== true || v.stock === null || v.stock === undefined) return '';
+  if (v.stock <= 0) return ' — sur commande';
+  return ' — ' + v.stock + ' en stock';
+}
+
 /* ============================================================
    AFFICHAGE DU CATALOGUE
    ============================================================ */
@@ -780,7 +801,8 @@ function carteArticle(a) {
         (o.obligatoire ? '' : '<option value="">— sans —</option>') +
         (o.valeurs || []).map(v =>
           '<option value="' + v.id + '">' + esc(v.valeur) +
-          (o.effet === 'ajoute' && v.prix ? ' (+' + eur(v.prix) + ')' : '') + '</option>').join('') +
+          (o.effet === 'ajoute' && v.prix ? ' (+' + eur(v.prix) + ')' : '') +
+          dispo(v) + '</option>').join('') +
         '</select>';
     } else {
       lab.innerHTML = '<span>' + esc(o.libelle) + etoile +

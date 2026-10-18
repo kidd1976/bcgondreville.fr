@@ -122,17 +122,26 @@
 .bq-barre .r{font-family:var(--titre);font-size:20px;font-weight:900}
 @media (min-width:900px){ .bq-barre{display:none !important} }
 
-/* Le visuel d'un stage, quand il n'a pas de photo : le logo du club
-   plutot qu'un pictogramme. Un trophee ne veut rien dire ; le logo
-   dit de qui vient le stage. « contain » et non « cover » : un logo
-   recadre est un logo abime. */
 /* Un bouton ferme doit en avoir l'air. « Bientot » en plein or se
    lit comme un bouton qui marche, et on clique trois fois avant de
    comprendre que non. */
 .bq-carte .btn[disabled]{opacity:.5;cursor:not-allowed;filter:grayscale(.55)}
-.bq-visuel--logo{background:linear-gradient(160deg,#0c5236,#0c2818)}
-.bq-visuel--logo img{width:auto;height:64%;max-width:72%;object-fit:contain;
-  border-radius:10px;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+
+/* LE VISUEL D'UN STAGE
+
+   Il n'est PAS dans une piste de photos : c'est une image seule,
+   posee directement dans le cadre. La regle des photos produit vit
+   sur « .bq-piste img » et ne l'atteint donc pas — sans la regle
+   ci-dessous, l'image se range toute seule en haut a gauche. C'est
+   ce qui est arrive en passant le cadre au format carre.
+
+   Le fond vert est dans l'image elle-meme, pas dans le CSS : le
+   visuel part aussi dans les e-mails et les partages, ou aucune
+   feuille de style ne le suit. */
+.bq-visuel > img{position:absolute;inset:0;margin:auto;
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.bq-visuel--logo{background:#0c5236}
+.bq-visuel--logo > img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- La fiche d'inscription au stage ---------- */
 /* L'en-tete du site est en z-index 100 et colle en haut : a 60, la
@@ -887,7 +896,9 @@ function carteStage(s) {
   d.className = 'bq-carte';
   d.innerHTML =
     '<div class="bq-visuel' + (s.image ? '' : ' bq-visuel--logo') + '">' +
-      '<img src="' + (s.image ? esc(s.image) : '../assets/img/logo-bcg.jpg') + '" alt="' +
+      /* Le visuel de repli porte deja son fond vert : plus de damier
+         de transparence, plus de carre blanc au milieu. */
+      '<img src="' + (s.image ? esc(s.image) : '../assets/img/20261018_bcg_stage-visuel.jpg') + '" alt="' +
         (s.image ? esc(s.nom) : 'Basket Club de Gondreville') + '" loading="lazy">' +
     '</div>' +
     '<div class="bq-corps">' +

@@ -73,6 +73,41 @@
 /* Sur un ecran tactile, les fleches gaspillent de la place : le doigt
    suffit. On garde les points, qui disent combien il reste a voir. */
 @media (hover:none){.bq-visuel--multi .bq-fleche{display:none}}
+
+/* ---------- LA LOUPE : VOIR UNE PHOTO EN GRAND ----------
+
+   Une vignette de carte suffit pour reconnaitre un maillot. Elle ne
+   suffit pas pour LIRE : le guide des tailles y est illisible, et
+   c'est pourtant lui qu'on vient consulter avant de commander.
+
+   La photo s'ouvre donc en plein ecran, a sa taille reelle, avec
+   les memes fleches que la carte. On ferme en cliquant a cote, par
+   la croix, ou avec Echap — trois sorties, parce qu'on ne sait
+   jamais laquelle la personne va chercher. */
+.bq-piste img{cursor:zoom-in}
+.bq-loupe{position:fixed;inset:0;z-index:9999;background:rgba(10,24,16,.93);
+  display:none;align-items:center;justify-content:center;padding:28px}
+.bq-loupe.on{display:flex}
+.bq-loupe img{max-width:100%;max-height:100%;width:auto;height:auto;
+  object-fit:contain;border-radius:10px;background:#fff}
+.bq-loupe__x,.bq-loupe__f{position:absolute;border:0;cursor:pointer;color:#123;
+  background:rgba(255,255,255,.92);border-radius:50%;padding:0;line-height:44px;
+  width:44px;height:44px;font-size:22px;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.bq-loupe__x{top:16px;right:16px;font-size:26px}
+.bq-loupe__f{top:50%;transform:translateY(-50%)}
+.bq-loupe__f--p{left:16px}
+.bq-loupe__f--s{right:16px}
+.bq-loupe__f[hidden]{display:none}
+/* Le compteur est pose SUR la photo, qui peut etre blanche : sans
+   sa propre pastille sombre, il disparait exactement sur les
+   visuels les plus clairs — ceux des vetements sur fond blanc. */
+.bq-loupe__nb{position:absolute;bottom:18px;left:0;right:0;text-align:center;
+  font-size:13px;pointer-events:none}
+.bq-loupe__nb:not(:empty) span{display:inline-block;padding:4px 12px;border-radius:999px;
+  background:rgba(10,24,16,.78);color:#fff}
+/* Le fond ne doit pas defiler derriere la loupe : on retrouverait
+   la page ailleurs qu'on ne l'avait laissee en fermant. */
+body.bq-fige{overflow:hidden}
 .bq-corps{padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
 .bq-nom{font-family:var(--titre);font-size:20px;font-weight:800;line-height:1.15}
 .bq-desc{font-size:13.5px;color:var(--txt-sombre-2);margin:0}
@@ -712,6 +747,19 @@ function brancherGalerie(d) {
   const piste = $('[data-piste]', d);
   if (!piste) return;
   const vues = piste.children;
+
+  /* LE CLIC QUI AGRANDIT, MEME QUAND IL N'Y A QU'UNE PHOTO.
+     C'est branche AVANT le test sur le nombre de vues : un article
+     a une seule image — le guide des tailles, justement — doit
+     pouvoir s'ouvrir en grand comme les autres. */
+  Array.from(piste.querySelectorAll('img')).forEach(function (img, i) {
+    img.addEventListener('click', function () {
+      const toutes = Array.from(piste.querySelectorAll('img'))
+        .map(function (x) { return { src: x.currentSrc || x.src, alt: x.alt }; });
+      loupe(toutes, i);
+    });
+  });
+
   if (vues.length < 2) return;
 
   const pts = $('[data-points]', d);
@@ -747,6 +795,73 @@ function brancherGalerie(d) {
 
   rafraichir();
 }
+
+/* ============================================================
+   LA LOUPE
+
+   Un seul panneau pour toute la page, cree au premier clic et
+   reutilise ensuite : vingt articles ne doivent pas poser vingt
+   panneaux plein ecran dans le document.
+   ============================================================ */
+const loupe = (function () {
+  let boite = null, images = [], rang = 0;
+
+  function batir() {
+    if (boite) return boite;
+    boite = document.createElement('div');
+    boite.className = 'bq-loupe';
+    boite.innerHTML =
+      '<button class="bq-loupe__x" type="button" aria-label="Fermer">×</button>' +
+      '<button class="bq-loupe__f bq-loupe__f--p" type="button" aria-label="Photo précédente">‹</button>' +
+      '<img alt="">' +
+      '<button class="bq-loupe__f bq-loupe__f--s" type="button" aria-label="Photo suivante">›</button>' +
+      '<div class="bq-loupe__nb"></div>';
+    document.body.appendChild(boite);
+
+    $('.bq-loupe__x', boite).addEventListener('click', fermer);
+    $('.bq-loupe__f--p', boite).addEventListener('click', e => { e.stopPropagation(); aller(rang - 1); });
+    $('.bq-loupe__f--s', boite).addEventListener('click', e => { e.stopPropagation(); aller(rang + 1); });
+    /* Un clic sur le fond ferme ; un clic sur la photo elle-meme ne
+       ferme pas — on vient de l'ouvrir pour la regarder. */
+    boite.addEventListener('click', e => { if (e.target === boite) fermer(); });
+    document.addEventListener('keydown', e => {
+      if (!boite.classList.contains('on')) return;
+      if (e.key === 'Escape')     fermer();
+      if (e.key === 'ArrowLeft')  aller(rang - 1);
+      if (e.key === 'ArrowRight') aller(rang + 1);
+    });
+    return boite;
+  }
+
+  function aller(i) {
+    if (!images.length) return;
+    rang = Math.max(0, Math.min(images.length - 1, i));
+    const img = $('.bq-loupe img', boite);
+    img.src = images[rang].src;
+    img.alt = images[rang].alt || '';
+    $('.bq-loupe__f--p', boite).hidden = (rang === 0);
+    $('.bq-loupe__f--s', boite).hidden = (rang === images.length - 1);
+    $('.bq-loupe__nb', boite).innerHTML =
+      images.length > 1 ? '<span>' + (rang + 1) + ' / ' + images.length + '</span>' : '';
+  }
+
+  function fermer() {
+    if (!boite) return;
+    boite.classList.remove('on');
+    document.body.classList.remove('bq-fige');
+    /* On vide la source : une photo lourde n'a pas a rester en
+       memoire une fois le panneau referme. */
+    $('.bq-loupe img', boite).removeAttribute('src');
+  }
+
+  return function ouvrir(liste, depart) {
+    batir();
+    images = liste;
+    document.body.classList.add('bq-fige');
+    boite.classList.add('on');
+    aller(depart || 0);
+  };
+})();
 
 /* CE QUI RESTE, DANS LE MENU DES TAILLES — ajoute le 19/10/2026.
 
@@ -840,13 +955,35 @@ function carteArticle(a) {
       bouton.disabled = true;
       bouton.textContent = 'Bientôt';
     }
+    /* LE DELAI ET LE STOCK SUIVENT LA TAILLE CHOISIE.
+
+       Avant, cette boucle ne regardait que les options dont le prix
+       REMPLACE celui de l'article. La taille de la tenue KEMPA, elle,
+       ne change pas le prix : son delai n'etait donc jamais lu, et la
+       carte affichait le delai general quelle que soit la taille —
+       « sur commande » sur une taille qui etait en rayon.
+       On lit maintenant toute option de type liste. Le prix, lui,
+       continue de ne suivre que « remplace » : c'est une autre
+       question, et elle etait juste. */
     let promesse = a.promesse;
+    let reste = null;
     (a.options || []).forEach(o => {
-      if (o.type !== 'liste' || o.effet !== 'remplace') return;
+      if (o.type !== 'liste') return;
       const v = (o.valeurs || []).find(v => String(v.id) === String(c[o.code]));
-      if (v && v.promesse) promesse = v.promesse;
+      if (!v) return;
+      if (v.promesse) promesse = v.promesse;
+      if (v.suivi === true && v.stock !== null && v.stock !== undefined) reste = v.stock;
     });
-    $('[data-delai]', d).textContent = promesse || '';
+    /* Le nombre passe devant le delai : c'est l'information que la
+       famille cherche. Le delai reste derriere, pour le cas ou il
+       faut commander. */
+    let ligne = promesse || '';
+    if (reste !== null) {
+      ligne = (reste > 0
+        ? (reste === 1 ? 'Dernier exemplaire dans cette taille' : reste + ' disponibles dans cette taille')
+        : 'Plus de stock dans cette taille') + (ligne ? ' · ' + ligne : '');
+    }
+    $('[data-delai]', d).textContent = ligne;
   }
   zone.addEventListener('input', rafraichir);
   zone.addEventListener('change', rafraichir);

@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Basket Club de Gondreville — Un club de basket familial et ambitieux</title>
-<meta name="description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes en U15, U18 et Seniors pour 2026/27.">
+<meta name="description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes pour la saison 2026/27.">
 <link rel="canonical" href="https://bcgondreville.fr/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Basket Club de Gondreville — Un club de basket familial et ambitieux">
-<meta property="og:description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes en U15, U18 et Seniors pour 2026/27.">
+<meta property="og:description" content="Club de basket-ball affilié FFBB à Gondreville (54). 120 licenciés dont 80 jeunes, 8 équipes du Baby Basket aux Seniors. Inscriptions ouvertes pour la saison 2026/27.">
 <meta property="og:url" content="https://bcgondreville.fr/">
 <meta property="og:image" content="https://bcgondreville.fr/assets/img/logo-bcg.jpg">
 <meta property="og:locale" content="fr_FR">
@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20260926">
+<link rel="stylesheet" href="assets/css/style.css">
 <style>
   .carrousel-part{overflow:hidden;position:relative;padding:6px 0;
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
@@ -45,8 +45,76 @@
 </head>
 <body>
 
-<!-- Les deux bandeaux défilants (anniversaires du mois, état des
-     effectifs) sont posés par assets/js/site.js sur toutes les pages. -->
+<!-- ═══ Bandeau anniversaires du mois (accueil uniquement) ═══ -->
+<div id="bcg-anniv" style="display:none;background:#ffffff;overflow:hidden;white-space:nowrap;border-bottom:1px solid #e6efe9">
+  <div id="bcg-anniv-piste" style="display:inline-block;padding:9px 0;color:#0c5236;font-weight:700;font-size:14px;letter-spacing:.2px"></div>
+</div>
+<style>
+  @keyframes bcgAnnivDefile{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  #bcg-anniv-piste.anim{animation:bcgAnnivDefile 32s linear infinite !important}
+  #bcg-anniv:hover #bcg-anniv-piste.anim{animation-play-state:paused !important}
+</style>
+<script>
+(function(){
+  var bandeau = document.getElementById('bcg-anniv');
+  var piste   = document.getElementById('bcg-anniv-piste');
+
+  /* Le texte est fabrique ici, jamais injecte depuis la reponse :
+     un prenom qui contiendrait un chevron ne doit pas devenir du
+     code dans la page. */
+  function propre(s){
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function dessiner(d){
+    if(!d || !d.liste || !d.liste.length){
+      /* Un mois sans anniversaire, ca arrive : le bandeau se cache
+         au lieu de defiler a vide. Et s'il etait deja affiche —
+         rafraichissement au passage de minuit — il disparait. */
+      bandeau.style.display = 'none';
+      piste.classList.remove('anim');
+      return;
+    }
+    var sep = '<span style="color:#e8b923;margin:0 22px">•</span>';
+    var un = d.liste.map(function(x){
+      /* Le jour meme ressort : c'est tout l'interet d'un bandeau
+         d'anniversaires qu'on relise chaque matin. */
+      var date = x.aujourdhui
+        ? '<span style="background:#e8b923;color:#15301f;padding:1px 8px;border-radius:999px">aujourd’hui</span>'
+        : '<strong>' + propre(x.jour) + ' ' + propre(d.mois) + '</strong>';
+      return '🎂 ' + date + ' — ' + propre(x.texte);
+    }).join(sep) + sep;
+    piste.innerHTML = '<span>' + un + '</span><span>' + un + '</span>';
+    piste.classList.add('anim');
+    bandeau.style.display = '';
+  }
+
+  function charger(){
+    fetch('https://app.bcgondreville.fr/api/anniversaires.php', {cache:'no-store'})
+      .then(function(r){ return r.json(); })
+      .then(dessiner)
+      .catch(function(){});
+  }
+
+  charger();
+
+  /* UN ECRAN RESTE OUVERT PLUS LONGTEMPS QU'ON NE CROIT — celui du
+     gymnase, l'onglet laisse de cote toute la journee. Sans ce
+     rappel, le bandeau garderait la liste d'hier apres minuit, et
+     celle du mois dernier le 1er. Un quart d'heure suffit : l'API
+     garde une minute de cache, ca ne coute presque rien. */
+  setInterval(charger, 15 * 60 * 1000);
+
+  /* Et au retour sur l'onglet, pour que le cas le plus visible —
+     on rouvre son navigateur le matin — soit juste tout de suite. */
+  document.addEventListener('visibilitychange', function(){
+    if(!document.hidden) charger();
+  });
+})();
+</script>
+
 
 <header class="entete">
   <div class="entete__inner">
@@ -79,8 +147,8 @@
     <h1>Le basket pour tous,<span>ambitieux et familial</span></h1>
     <p>120 licenciés dont 80 jeunes, 8 équipes, une salle et une même passion. Un club familial où chacun trouve sa place, et ambitieux dans son projet : que vous veniez pour la compétition ou pour le plaisir de jouer, il y a une place pour vous au BCG.</p>
     <div class="hero__actions">
-      <a href="pages/equipes.html" class="btn btn--or">Voir les équipes et les tarifs</a>
-      <a href="pages/contact.html" class="btn btn--ligne">Nous contacter</a>
+      <a href="pages/inscription.html" class="btn btn--or">S'inscrire pour 2026/27</a>
+      <a href="pages/equipes.html" class="btn btn--ligne">Voir les équipes</a>
     </div>
   </div>
 </section>
@@ -105,8 +173,8 @@
     <div class="grille grille--3">
       <div class="brique">
         <h3>Jouer</h3>
-        <p>Du Baby Basket aux Seniors, en compétition départementale ou en loisir. Les U7, U9, U11 et U13 sont complets pour cette saison ; il reste de la place en U15, U18 et Seniors.</p>
-        <p style="margin-top:14px"><a href="pages/equipes.html" class="btn btn--or" style="padding:10px 18px;font-size:14px">Voir les équipes</a></p>
+        <p>Du Baby Basket aux Seniors, en compétition départementale ou en loisir. Un essai gratuit est possible avant de s'engager.</p>
+        <p style="margin-top:14px"><a href="pages/inscription.html" class="btn btn--or" style="padding:10px 18px;font-size:14px">S'inscrire</a></p>
       </div>
       <div class="brique">
         <h3>Encadrer</h3>
@@ -224,7 +292,7 @@
   </div>
 </footer>
 
-<script src="assets/js/config.js?v=20260926"></script>
-<script src="assets/js/site.js?v=20260926"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/site.js"></script>
 </body>
 </html>

@@ -23,10 +23,56 @@
 .bq-grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
 .bq-carte{display:flex;flex-direction:column;background:#fff;border:1px solid rgba(0,0,0,.09);
   border-radius:14px;overflow:hidden}
-.bq-visuel{aspect-ratio:4/3;background:#eef2ee;display:flex;align-items:center;justify-content:center;
-  overflow:hidden}
-.bq-visuel img{width:100%;height:100%;object-fit:cover}
-.bq-visuel .vide{font-size:34px;opacity:.35}
+/* LE VISUEL D'UN ARTICLE
+
+   IL ETAIT EN 4/3 ET EN « cover ». Les photos produit, elles, sont
+   carrees : le cadre en coupait donc le haut et le bas, et un maillot
+   arrivait sans son col ni son ourlet. « cover » remplit le cadre en
+   rognant ce qui depasse — parfait pour une photo d'ambiance, faux
+   pour un vetement qu'on achete sur sa forme.
+
+   Cadre carre, « contain », fond blanc : la photo entre entiere, et
+   le blanc du cadre prolonge celui du fond des photos sans couture.
+   Ce qui n'est pas carre garde ses proportions au lieu d'etre
+   deforme — mieux vaut une marge blanche qu'un short etire. */
+.bq-visuel{position:relative;aspect-ratio:1/1;background:#fff;overflow:hidden;
+  border-bottom:1px solid rgba(0,0,0,.07)}
+.bq-visuel .vide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:34px;opacity:.35;background:#eef2ee}
+
+/* LA PISTE DES PHOTOS.
+   Un simple debordement horizontal avec accrochage : le doigt fait
+   defiler sur telephone, la molette et les fleches sur ordinateur.
+   Pas de minuteur, pas de defilement automatique — une photo qui
+   bouge toute seule pendant qu'on choisit sa taille agace. */
+.bq-piste{display:flex;height:100%;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
+.bq-piste::-webkit-scrollbar{display:none}
+.bq-piste figure{flex:0 0 100%;width:100%;height:100%;margin:0;scroll-snap-align:center;
+  display:flex;align-items:center;justify-content:center;background:#fff}
+.bq-piste img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+
+/* Les fleches ne s'affichent que s'il y a plus d'une photo : la JS
+   ne pose la classe qu'a ce moment-la. */
+.bq-fleche{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:34px;height:34px;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.88);box-shadow:0 1px 5px rgba(0,0,0,.22);
+  color:#123;font-size:17px;line-height:34px;padding:0;display:none}
+.bq-visuel--multi .bq-fleche{display:block}
+.bq-fleche:hover{background:#fff}
+.bq-fleche[disabled]{opacity:.3;cursor:default}
+.bq-fleche--p{left:8px}
+.bq-fleche--s{right:8px}
+.bq-points{position:absolute;left:0;right:0;bottom:8px;z-index:2;
+  display:none;justify-content:center;gap:6px}
+.bq-visuel--multi .bq-points{display:flex}
+.bq-points b{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.22);
+  transition:background .15s}
+.bq-points b.on{background:var(--vert,#0c5236)}
+/* Sur un ecran tactile, les fleches gaspillent de la place : le doigt
+   suffit. On garde les points, qui disent combien il reste a voir. */
+@media (hover:none){.bq-visuel--multi .bq-fleche{display:none}}
 .bq-corps{padding:14px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
 .bq-nom{font-family:var(--titre);font-size:20px;font-weight:800;line-height:1.15}
 .bq-desc{font-size:13.5px;color:var(--txt-sombre-2);margin:0}
@@ -609,16 +655,98 @@ function prixArticle(art, choix) {
 }
 
 /* ============================================================
+   LA GALERIE D'UN ARTICLE
+
+   L'API renvoie « visuels » : toutes les photos deposees, la
+   principale en tete. Jusqu'ici la page n'en lisait qu'une — les
+   autres etaient bien en base, simplement jamais affichees.
+
+   REPLI : si « visuels » manque (une version de l'API plus ancienne
+   restee en place), on retombe sur l'ancienne photo unique. La page
+   ne doit pas se vider parce que les deux fichiers n'ont pas ete
+   deposes la meme minute.
+   ============================================================ */
+function photosDe(a) {
+  if (Array.isArray(a.visuels) && a.visuels.length) return a.visuels;
+  const seule = a.image || a.vignette;
+  return seule ? [{ image: seule, vignette: a.vignette || seule, alt: a.nom, legende: null }] : [];
+}
+
+function galerie(a) {
+  const ph = photosDe(a);
+  if (!ph.length) return '<div class="bq-visuel"><span class="vide">🏀</span></div>';
+
+  /* La premiere photo se charge normalement, les suivantes en
+     differe : sur un catalogue de vingt articles, tout charger
+     d'un coup ferait ramer la page pour des images que personne
+     ne regardera. */
+  const vues = ph.map((p, i) =>
+    '<figure><img src="' + esc(p.image || p.vignette) + '"' +
+    ' alt="' + esc(p.alt || a.nom || '') + '"' +
+    (i ? ' loading="lazy"' : '') + '></figure>').join('');
+
+  const points = ph.map((p, i) => '<b' + (i ? '' : ' class="on"') + '></b>').join('');
+
+  return '<div class="bq-visuel' + (ph.length > 1 ? ' bq-visuel--multi' : '') + '">' +
+    '<div class="bq-piste" data-piste>' + vues + '</div>' +
+    '<button class="bq-fleche bq-fleche--p" type="button" data-av aria-label="Photo précédente">‹</button>' +
+    '<button class="bq-fleche bq-fleche--s" type="button" data-ap aria-label="Photo suivante">›</button>' +
+    '<div class="bq-points" data-points aria-hidden="true">' + points + '</div>' +
+  '</div>';
+}
+
+/* Les fleches, les points, et l'etat du debut et de la fin.
+   On lit la position reelle de la piste au lieu de compter les clics :
+   le doigt peut faire defiler sans passer par les boutons, et deux
+   compteurs qui divergent finissent toujours par se contredire. */
+function brancherGalerie(d) {
+  const piste = $('[data-piste]', d);
+  if (!piste) return;
+  const vues = piste.children;
+  if (vues.length < 2) return;
+
+  const pts = $('[data-points]', d);
+  const av  = $('[data-av]', d);
+  const ap  = $('[data-ap]', d);
+
+  function rang() {
+    const l = piste.clientWidth || 1;
+    return Math.max(0, Math.min(vues.length - 1, Math.round(piste.scrollLeft / l)));
+  }
+  function rafraichir() {
+    const i = rang();
+    if (pts) Array.from(pts.children).forEach((b, k) => b.classList.toggle('on', k === i));
+    /* Pas de bouclage : arrive a la derniere photo, la fleche
+       s'eteint plutot que de revenir au debut sans prevenir. */
+    if (av) av.disabled = (i === 0);
+    if (ap) ap.disabled = (i === vues.length - 1);
+  }
+  function aller(i) {
+    piste.scrollTo({ left: piste.clientWidth * Math.max(0, Math.min(vues.length - 1, i)), behavior: 'smooth' });
+  }
+
+  if (av) av.addEventListener('click', () => aller(rang() - 1));
+  if (ap) ap.addEventListener('click', () => aller(rang() + 1));
+
+  /* Le defilement tire plusieurs dizaines d'evenements par geste :
+     on attend que ca se calme avant de redessiner les points. */
+  let t = null;
+  piste.addEventListener('scroll', () => {
+    if (t) clearTimeout(t);
+    t = setTimeout(rafraichir, 60);
+  }, { passive: true });
+
+  rafraichir();
+}
+
+/* ============================================================
    AFFICHAGE DU CATALOGUE
    ============================================================ */
 function carteArticle(a) {
   const d = document.createElement('article');
   d.className = 'bq-carte';
   d.innerHTML =
-    '<div class="bq-visuel">' +
-      (a.vignette ? '<img src="' + esc(a.vignette) + '" alt="' + esc(a.nom) + '" loading="lazy">'
-                  : '<span class="vide">🏀</span>') +
-    '</div>' +
+    galerie(a) +
     '<div class="bq-corps">' +
       '<div class="bq-nom">' + esc(a.nom) + '</div>' +
       (a.marque ? '<span class="bq-mention">' + esc(a.marque) + '</span>' : '') +
@@ -719,6 +847,8 @@ function carteArticle(a) {
       }).filter(Boolean)
     });
   });
+
+  brancherGalerie(d);
   return d;
 }
 
